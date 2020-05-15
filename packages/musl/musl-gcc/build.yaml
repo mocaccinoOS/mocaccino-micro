@@ -1,0 +1,11 @@
+requires:
+- name: musl
+  category: system
+  version: "1.2.0"
+
+unpack: true
+
+includes:
+- ^/usr$
+- ^/usr/bin$
+- ^/usr/bin/musl\-gcc$

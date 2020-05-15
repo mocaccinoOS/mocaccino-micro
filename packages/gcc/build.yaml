@@ -1,0 +1,19 @@
+requires:
+- name: musl
+  category: system
+  version: "1.2.0"
+
+env:
+- MUSL_TARGET=x86_64-mocaccino-linux-musl
+- MUSL_ARCH=x86
+- MUSL_CPU=x86-64
+
+- MPFR_VERSION=4.0.2
+- GMP_VERSION=6.1.2
+- MPC_VERSION=1.1.0
+
+prelude:
+- sh prepare.sh
+
+steps:
+- sh build.sh
