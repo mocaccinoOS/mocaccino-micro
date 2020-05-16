@@ -1,4 +1,7 @@
-image: "alpine"
+requires:
+- name: musl-toolchain
+  category: system
+  version: "0.9.9"
 
 env:
 - MUSL_TARGET=x86_64-mocaccino-linux-musl

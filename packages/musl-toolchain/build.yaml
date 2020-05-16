@@ -8,7 +8,7 @@ env:
 prelude:
 - |
   apk update && \
-  apk add git build-base && \
+  apk add git build-base make && \
   git clone https://github.com/richfelker/musl-cross-make && \
   cd musl-cross-make  && \
   git checkout v${PACKAGE_VERSION} -b build && \
@@ -22,5 +22,8 @@ package_dir: "/musl"
 steps:
 - |
    cd musl-cross-make && \
-   make TARGET=$MUSL_TARGET OUTPUT=/musl install -j 8 
-
+   make TARGET=$MUSL_TARGET OUTPUT=/musl install -j 8 && \
+   apk del build-base && \ 
+   cp -rfv /musl/* / && \ 
+   ln -s /usr/bin/${MUSL_TARGET}-gcc /usr/bin/gcc && \ 
+   ln -s /musl/usr/bin/${MUSL_TARGET}-gcc /musl/usr/bin/gcc
