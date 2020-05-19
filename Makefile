@@ -10,7 +10,7 @@ DESTINATION?=$(ROOT_DIR)/build
 COMPRESSION?=gzip
 CLEAN?=false
 export TREE?=./
-BUILD_ARGS?=--pull --image-repository sabayonarm/luetcache -d
+BUILD_ARGS?=-d
 SUDO?=
 
 .PHONY: all
