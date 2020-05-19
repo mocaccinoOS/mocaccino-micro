@@ -1,0 +1,50 @@
+
+requires:
+- name: musl-toolchain
+  category: system
+  version: "0.9.9"
+- name: make
+  category: development
+  version: ">=0"
+- name: m4
+  category: development
+  version: ">=0"
+
+
+env:
+- MUSL_TARGET=x86_64-mocaccino-linux-musl
+- MUSL_ARCH=x86
+- MUSL_CPU=x86-64
+
+- CFLAGS="-static -Os -ffunction-sections -fdata-sections -Bsymbolic-functions"
+- LDFLAGS="-Wl,--gc-sections"
+# - CC="${MUSL_TARGET}-gcc"
+# - CXX="${MUSL_TARGET}-g++"
+# - AR="${MUSL_TARGET}-ar"
+# - AS="${MUSL_TARGET}-as"
+# - RANLIB="${MUSL_TARGET}-ranlib"
+# - LD="${MUSL_TARGET}-ld"
+# - STRIP="${MUSL_TARGET}-strip"
+# - FORCE_UNSAFE_CONFIGURE=1
+- PERL_CROSS=1.3
+
+package_dir: /perl
+prelude:
+- |
+   wget https://www.cpan.org/src/5.0/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
+   wget https://github.com/arsv/perl-cross/releases/download/${PERL_CROSS}/perl-cross-${PERL_CROSS}.tar.gz && \
+   tar -xvf perl-cross-${PERL_CROSS}.tar.gz && \
+   tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
+   cd ${PACKAGE_NAME} && cp -rfv ../perl-cross-${PERL_CROSS}/* ./ && \
+   mkdir -p /${PACKAGE_NAME} && \
+   ./configure -Duselargefiles -Duseshrplib -Duse64bitall  \ 
+               -Dbyteorder=1234 \
+               --target=$MUSL_TARGET --build=$MUSL_TARGET \
+               --prefix=/usr && \ 
+    make DESTDIR=/${PACKAGE_NAME} -j 8
+# for static: -Uusedl \
+# fPIC: -Duselargefiles -Dcccdlflags=-fPIC -Duseshrplib -Duse64bitall \
+
+steps:
+- | 
+  cd ${PACKAGE_NAME} && make DESTDIR=/${PACKAGE_NAME} install

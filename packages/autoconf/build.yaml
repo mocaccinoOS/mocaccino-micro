@@ -1,0 +1,35 @@
+
+requires:
+- name: musl-toolchain
+  category: system
+  version: "0.9.9"
+- name: make
+  category: development
+  version: ">=0"
+- name: m4
+  category: development
+  version: ">=0"
+- name: perl
+  category: lang
+  version: ">=0"
+
+env:
+- MUSL_TARGET=x86_64-mocaccino-linux-musl
+- MUSL_ARCH=x86
+- MUSL_CPU=x86-64
+- CFLAGS="-static -Os -ffunction-sections -fdata-sections"
+- LDFLAGS="-Wl,--gc-sections"
+- FORCE_UNSAFE_CONFIGURE=1
+
+package_dir: /autoconf
+prelude:
+- |
+   wget http://ftp.gnu.org/gnu/${PACKAGE_NAME}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
+   tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
+   cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && ./configure --target=$MUSL_TARGET --prefix=/usr && make DESTDIR=/${PACKAGE_NAME}
+
+steps:
+- | 
+  cd ${PACKAGE_NAME} && make DESTDIR=/${PACKAGE_NAME} install && \
+  cp -rfv /${PACKAGE_NAME}/* /
+  

@@ -2,35 +2,15 @@ requires:
 - name: musl-toolchain
   category: system
   version: "0.9.9"
-
+  
 env:
 - MUSL_TARGET=x86_64-mocaccino-linux-musl
 - MUSL_ARCH=x86
 - MUSL_CPU=x86-64
 
-prelude:
-- |
-  apk update && \
-  apk add git build-base && \
-  git clone git://git.musl-libc.org/musl && \
-  cd musl  && \
-  git checkout v${PACKAGE_VERSION} -b build && \
-  ./configure --enable-wrapper=yes && make
-
-steps:
-- |
-   cd musl && \
-   make install && \
-   mv /usr/local/musl/bin/musl-gcc /usr/bin/musl-gcc
-
 unpack: true
 
 includes:
 - ^/lib$
-- ^/usr$
-- ^/usr/local$
-- ^/usr/local/musl$
-- ^/usr/local/musl/lib$
-- ld-musl-.*.so.1
-# symlink to ld: - libc.musl-.*.so.1
-- /usr/local/musl/lib/.*
+- ^/lib/ld-musl-.*.so.1
+- ^/lib/libc.so$

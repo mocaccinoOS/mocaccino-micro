@@ -6,8 +6,5 @@ requires:
 unpack: true
 
 includes:
-- ^/usr$
-- ^/usr/local$
-- ^/usr/local/musl$
-- ^/usr/local/musl/include$
-- /usr/local/musl/include/.*
+- ^/include$
+- ^/include/.*
