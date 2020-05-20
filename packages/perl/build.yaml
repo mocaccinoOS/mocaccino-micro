@@ -26,7 +26,7 @@ env:
 # - LD="${MUSL_TARGET}-ld"
 # - STRIP="${MUSL_TARGET}-strip"
 # - FORCE_UNSAFE_CONFIGURE=1
-- PERL_CROSS=1.3
+- PERL_CROSS=1.3.3
 
 package_dir: /perl
 prelude:
@@ -37,7 +37,7 @@ prelude:
    tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
    cd ${PACKAGE_NAME} && cp -rfv ../perl-cross-${PERL_CROSS}/* ./ && \
    mkdir -p /${PACKAGE_NAME} && \
-   ./configure -Duselargefiles -Duseshrplib -Duse64bitall  \ 
+   ./configure -Duselargefiles -Duseshrplib -Duse64bitall -Dincpth=/include -Dusrinc=/include -Dlocincpth=/include \
                -Dbyteorder=1234 \
                --target=$MUSL_TARGET --build=$MUSL_TARGET \
                --prefix=/usr && \ 
@@ -47,4 +47,4 @@ prelude:
 
 steps:
 - | 
-  cd ${PACKAGE_NAME} && make DESTDIR=/${PACKAGE_NAME} install
+  cd ${PACKAGE_NAME} && make DESTDIR=/${PACKAGE_NAME} install && cp -rfv /perl/* /
