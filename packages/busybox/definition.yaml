@@ -5,3 +5,7 @@ conflicts:
 - name: coreutils
   category: utils
   version: ">=0"
+requires:
+- name: musl
+  category: system
+  version: ">=0"

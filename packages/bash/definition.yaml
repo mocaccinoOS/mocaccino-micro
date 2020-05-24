@@ -1,3 +1,7 @@
 name: bash
 category: shells
 version: "5.0"
+requires:
+- name: musl
+  category: system
+  version: ">=0"

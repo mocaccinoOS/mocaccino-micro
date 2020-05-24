@@ -1,3 +1,7 @@
 name: musl
 category: system
 version: "1.2.0"
+conflicts:
+- name: musl-toolchain
+  category: system
+  version: ">=0"
