@@ -18,7 +18,7 @@ prelude:
 - |
    wget http://ftp.gnu.org/gnu/${PACKAGE_NAME}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
    tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
-   cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && ./configure && echo $CFLAGS && echo $LDFLAGS && make DESTDIR=/${PACKAGE_NAME}
+   cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && ./configure --prefix=/ && echo $CFLAGS && echo $LDFLAGS && make DESTDIR=/${PACKAGE_NAME}
 
 steps:
 - cd ${PACKAGE_NAME} && make DESTDIR=/${PACKAGE_NAME} install

@@ -1,3 +1,7 @@
 name: coreutils
 category: utils
 version: "8.31"
+requires:
+- name: musl
+  category: system
+  version: ">=0"
