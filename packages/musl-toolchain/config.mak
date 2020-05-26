@@ -39,7 +39,7 @@ GCC_CONFIG += --disable-lto
 # See https://github.com/richfelker/musl-cross-make/issues/47
 # e.g. https://github.com/rust-lang/rust/pull/59468/files
 #GCC_CONFIG += --enable-default-pie
-
+#GCC_CONFIG += --enable-languages=c,c++,go
 #GCC_CONFIG += --bindir=/usr/bin
 GCC_CONFIG += --prefix=/usr
 #GCC_CONFIG += --with-local-prefix=/usr/include
