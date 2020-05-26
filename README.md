@@ -1,4 +1,4 @@
-# mocaccino-micro
+# [![Docker Repository on Quay](https://quay.io/repository/mocaccino/micro/status "Docker Repository on Quay")](https://quay.io/repository/mocaccino/micro) mocaccino-micro
 
 ## Architecture
 
