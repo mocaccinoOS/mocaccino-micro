@@ -1,0 +1,7 @@
+name: busybox-static
+category: utils
+version: "1.31.1"
+conflicts:
+- name: coreutils
+  category: utils
+  version: ">=0"
