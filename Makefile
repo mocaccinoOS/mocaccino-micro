@@ -57,7 +57,9 @@ create-repo:
     --meta-compression gzip \
     --type http
 
-
 .PHONY: serve-repo
 serve-repo:
 	LUET_NOLOCK=true $(LUET) serve-repo --port 8000 --dir $(ROOT_DIR)/build
+
+auto-bump:
+	$(ROOT_DIR)/scripts/auto-bump.sh
