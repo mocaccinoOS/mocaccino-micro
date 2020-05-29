@@ -7,6 +7,8 @@ name: CI
 on:
   push:
     branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -47,12 +49,12 @@ jobs:
       uses: webfactory/ssh-agent@v0.2.0
       with:
         ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-    - name: Deploy 🚀
-      uses: JamesIves/github-pages-deploy-action@releases/v3
-      with:
-        SSH: true
-        CLEAN: true
-        BRANCH: master
-        BASE_BRANCH: master
-        REPOSITORY_NAME: mocaccinoOS/singularity-micro
-        FOLDER: build # The folder the action should deploy.
+# - name: Deploy 🚀
+#   uses: JamesIves/github-pages-deploy-action@releases/v3
+#   with:
+#     SSH: true
+#     CLEAN: true
+#     BRANCH: master
+#     BASE_BRANCH: master
+#     REPOSITORY_NAME: mocaccinoOS/singularity-micro
+#     FOLDER: build # The folder the action should deploy.
