@@ -1,6 +1,6 @@
 name: git
 category: vcs
-version: "2.26.2"
+version: "2.27.0-rc2"
 requires:
 - name: musl
   category: system
@@ -8,7 +8,6 @@ requires:
 - name: perl
   category: lang
   version: ">=0"
-
 labels:
   github.repo: "git"
   github.owner: "git"
