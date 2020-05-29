@@ -1,3 +1,7 @@
 name: go
 category: lang
 version: "1.14.3"
+
+labels:
+  github.repo: "go"
+  github.owner: "golang"

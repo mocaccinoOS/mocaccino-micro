@@ -1,3 +1,7 @@
 name: make
 category: development
 version: "4.3"
+
+labels:
+  github.repo: "make"
+  github.owner: "mirror"

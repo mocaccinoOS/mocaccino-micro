@@ -5,3 +5,7 @@ requires:
 - name: musl
   category: system
   version: ">=0"
+
+labels:
+  github.repo: "gettext"
+  github.owner: "autotools-mirror"

@@ -8,3 +8,7 @@ requires:
 - name: perl
   category: lang
   version: ">=0"
+
+labels:
+  github.repo: "git"
+  github.owner: "git"
