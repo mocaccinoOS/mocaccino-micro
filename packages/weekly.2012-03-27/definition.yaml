@@ -1,0 +1,6 @@
+name: go
+category: lang
+version: "weekly.2012-03-27"
+labels:
+  github.repo: "go"
+  github.owner: "golang"
