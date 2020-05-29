@@ -1,7 +1,6 @@
 name: perl
 category: lang
-version: "5.31.10"
-
+version: "5.31.11"
 labels:
   github.repo: "perl5"
   github.owner: "Perl"
