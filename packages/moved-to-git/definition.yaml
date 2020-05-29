@@ -1,7 +1,6 @@
 name: make
 category: development
-version: "4.3"
-
+version: "moved-to-git"
 labels:
   github.repo: "make"
   github.owner: "mirror"
