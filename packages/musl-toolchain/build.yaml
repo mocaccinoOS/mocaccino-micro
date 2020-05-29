@@ -18,6 +18,8 @@ prelude:
     mkdir -p /musl/
 package_dir: "/musl"
 
+# removes libc.so and ld-musl-.*.so.1 from the final package
+# to not conflict with system/musl
 steps:
 - |
   set -x && \
@@ -30,5 +32,6 @@ steps:
    PATH=$PATH:$PWD/output/bin:$PWD/output/$TARGET/bin make NATIVE=1 -j8 && \
    PATH=$PATH:$PWD/output/bin:$PWD/output/$TARGET/bin make NATIVE=1 install && \
    apk del build-base && \ 
-   cp -rfv /musl/* / 
-
+   cp -rfv /musl/* / && \
+   rm -rfv /musl/lib/ld-musl-x86_64.so.1 && \
+   rm -rfv /musl/lib/libc.so

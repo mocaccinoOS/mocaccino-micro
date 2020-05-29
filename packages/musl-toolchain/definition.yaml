@@ -1,3 +1,11 @@
 name: musl-toolchain
 category: system
 version: "0.9.9"
+requires:
+- name: musl
+  category: system
+  version: ">=0"
+
+labels:
+  github.repo: "musl-cross-make"
+  github.owner: "richfelker"
