@@ -8,6 +8,9 @@ requires:
 - name: perl
   category: lang
   version: ">=0"
+- name: zlib
+  category: libs
+  version: ">=0"
 
 labels:
   github.repo: "git"
