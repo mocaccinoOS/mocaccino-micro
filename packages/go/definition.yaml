@@ -5,3 +5,7 @@ version: "1.14.3"
 labels:
   github.repo: "go"
   github.owner: "golang"
+  autobump.strategy: "refs"
+  autobump.version_contains: "go"
+# autobump.trim_prefix: "go"
+  autobump.string_replace: '{ "go": "" }'
