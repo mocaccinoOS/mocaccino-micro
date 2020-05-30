@@ -5,3 +5,5 @@ version: "4.3"
 labels:
   github.repo: "make"
   github.owner: "mirror"
+  autobump.version_contains: '\\.'
+  autobump.strategy: "tag"

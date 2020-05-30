@@ -59,8 +59,8 @@ for i in $(echo "$PKG_LIST" | jq -r '.packages[].path'); do
     # A json map of replace rules
     STRING_REPLACE=$(yq r $PACKAGE_PATH/definition.yaml 'labels."autobump.string_replace"')
 
-    # If "refs" is enabled, you can specify a string match that should be contained in the versions
-    # to be considered
+    # You can specify a string match that should be contained in the versions
+    # to be considered. Valid for "refs" and tagging strategy
     VERSION_CONTAINS=$(yq r $PACKAGE_PATH/definition.yaml 'labels."autobump.version_contains"')
 
     if [[ "$AUTOBUMP_STRATEGY" == "release" ]]; then
@@ -68,7 +68,7 @@ for i in $(echo "$PKG_LIST" | jq -r '.packages[].path'); do
     elif [[ "$AUTOBUMP_STRATEGY" == "refs" ]]; then
         LATEST_TAG=$(curl https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/git/refs/tags -s | jq '.[].ref | sub("refs\/tags\/"; "") | select(. | test("'$VERSION_CONTAINS'"))' -r | tail -n1 )
     else
-        LATEST_TAG=$(curl https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/tags -s | jq '.[0].name' -r)
+        LATEST_TAG=$(curl https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/tags -s | jq -r '.[].name | select(. | test("'$VERSION_CONTAINS'"))' -r | head -1 )
     fi
 
     LATEST_TAG=${LATEST_TAG#v} # semver
@@ -79,6 +79,8 @@ for i in $(echo "$PKG_LIST" | jq -r '.packages[].path'); do
         echo "Replacing $i with '$WITH'"
         LATEST_TAG=$(echo "$LATEST_TAG" | sed -r 's/'$i'+/'$WITH'/g')
     done
+
+    echo "Latest tag for $PACKAGE_NAME is $LATEST_TAG"
 
     [[ "$LATEST_TAG" == "null" ]] && LATEST_TAG=
     # versions are mismatching. Bump the version
@@ -96,10 +98,10 @@ for i in $(echo "$PKG_LIST" | jq -r '.packages[].path'); do
         package_dir=$(dirname $PACKAGE_PATH)
 
         # Update runtime version
-        yq w -i $package_dir/definition.yaml version "$LATEST_TAG" --style double
+        yq w -i $PACKAGE_PATH/definition.yaml version "$LATEST_TAG" --style double
 
         if [ "${AUTO_GIT}" == "true" ]; then
-            git add $package_dir/
+            git add $PACKAGE_PATH/
             git commit -m "Bump $PACKAGE_CATEGORY/$PACKAGE_NAME to $LATEST_TAG"
             git push -f -v origin $BRANCH_NAME
 
