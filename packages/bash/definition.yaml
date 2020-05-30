@@ -5,3 +5,10 @@ requires:
 - name: musl
   category: system
   version: ">=0"
+
+labels:
+  github.repo: "bash"
+  github.owner: "bminor"
+  autobump.version_contains: '_'
+  autobump.strategy: "tag"
+  autobump.string_replace: '{ "_": "." }'

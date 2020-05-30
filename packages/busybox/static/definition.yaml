@@ -5,3 +5,10 @@ conflicts:
 - name: coreutils
   category: utils
   version: ">=0"
+
+labels:
+  github.repo: "busybox"
+  github.owner: "mirror"
+  autobump.version_contains: '_'
+  autobump.strategy: "tag"
+  autobump.string_replace: '{ "_": "." }'
