@@ -45,11 +45,6 @@ for i in $(echo "$PKG_LIST" | jq -r '.packages[].path'); do
     STRIPPED_PACKAGE_VERSION=${PACKAGE_VERSION%\+*}
     VERSION=$STRIPPED_PACKAGE_VERSION
 
-# DROPME
-    if [[ "$PACKAGE_NAME" != "go" ]]; then
-    continue
-fi
-
     # Best effort: get original package name from labels
     GITHUB_REPO=$(yq r $PACKAGE_PATH/definition.yaml 'labels."github.repo"')
     GITHUB_OWNER=$(yq r $PACKAGE_PATH/definition.yaml 'labels."github.owner"')
