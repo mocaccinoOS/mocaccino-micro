@@ -1,11 +1,10 @@
 name: coreutils
 category: utils
-version: "8.31"
+version: "8.32"
 requires:
 - name: musl
   category: system
   version: ">=0"
-
 labels:
   github.repo: "coreutils"
   github.owner: "coreutils"
