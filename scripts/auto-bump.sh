@@ -35,7 +35,7 @@ hash yq 2>/dev/null || {
 PKG_LIST=$(luet tree pkglist --tree $ROOT_DIR/ -o json)
 
 # For each package in the tree, get the path where the spec resides
-# e.g. tree/sabayonlinux.org/acct-group/amavis/0/
+# e.g. packages/acct-group/amavis/0/
 for i in $(echo "$PKG_LIST" | jq -r '.packages[].path'); do
 
     PACKAGE_PATH=$i
@@ -45,13 +45,45 @@ for i in $(echo "$PKG_LIST" | jq -r '.packages[].path'); do
     STRIPPED_PACKAGE_VERSION=${PACKAGE_VERSION%\+*}
     VERSION=$STRIPPED_PACKAGE_VERSION
 
+# DROPME
+    if [[ "$PACKAGE_NAME" != "go" ]]; then
+    continue
+fi
+
     # Best effort: get original package name from labels
     GITHUB_REPO=$(yq r $PACKAGE_PATH/definition.yaml 'labels."github.repo"')
     GITHUB_OWNER=$(yq r $PACKAGE_PATH/definition.yaml 'labels."github.owner"')
-    #LATEST_RELEASE=$(curl https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/releases/latest -s | jq .tag_name -r)
-    LATEST_TAG=$(curl https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/tags -s | jq '.[0].name' -r)
+    
+    # Strategy can be: release, tags or "refs"
+    # Refs parses thru git tags
+    AUTOBUMP_STRATEGY=$(yq r $PACKAGE_PATH/definition.yaml 'labels."autobump.strategy"')
+    
+    # Prefix to trim from the version
+    TRIM_PREFIX=$(yq r $PACKAGE_PATH/definition.yaml 'labels."autobump.trim_prefix"')
+
+    # A json map of replace rules
+    STRING_REPLACE=$(yq r $PACKAGE_PATH/definition.yaml 'labels."autobump.string_replace"')
+
+    # If "refs" is enabled, you can specify a string match that should be contained in the versions
+    # to be considered
+    VERSION_CONTAINS=$(yq r $PACKAGE_PATH/definition.yaml 'labels."autobump.version_contains"')
+
+    if [[ "$AUTOBUMP_STRATEGY" == "release" ]]; then
+        LATEST_TAG=$(curl https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/releases/latest -s | jq .tag_name -r)
+    elif [[ "$AUTOBUMP_STRATEGY" == "refs" ]]; then
+        LATEST_TAG=$(curl https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/git/refs/tags -s | jq '.[].ref | sub("refs\/tags\/"; "") | select(. | test("'$VERSION_CONTAINS'"))' -r | tail -n1 )
+    else
+        LATEST_TAG=$(curl https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/tags -s | jq '.[0].name' -r)
+    fi
+
     LATEST_TAG=${LATEST_TAG#v} # semver
-    LATEST_TAG=${LATEST_TAG#go} # go..
+    LATEST_TAG=${LATEST_TAG#$TRIM_PREFIX} # go..
+
+    for i in $(echo "$STRING_REPLACE" | jq -r 'keys[]'); do
+        WITH=$(echo "$STRING_REPLACE" | jq -r '."'$i'"')
+        echo "Replacing $i with '$WITH'"
+        LATEST_TAG=$(echo "$LATEST_TAG" | sed -r 's/'$i'+/'$WITH'/g')
+    done
 
     [[ "$LATEST_TAG" == "null" ]] && LATEST_TAG=
     # versions are mismatching. Bump the version
@@ -67,16 +99,12 @@ for i in $(echo "$PKG_LIST" | jq -r '.packages[].path'); do
         # Generate new folder after the new version
         # e.g. tree/package/1.1 to tree/package/1.2
         package_dir=$(dirname $PACKAGE_PATH)
-        new_version=$package_dir/$LATEST_TAG
-        # Copy content from previous version
-        cp -rfv $PACKAGE_PATH $new_version
 
         # Update runtime version
-        yq w -i $new_version/definition.yaml version "$LATEST_TAG" --style double
+        yq w -i $package_dir/definition.yaml version "$LATEST_TAG" --style double
 
         if [ "${AUTO_GIT}" == "true" ]; then
-            git add $new_version/
-            git rm -r $PACKAGE_PATH
+            git add $package_dir/
             git commit -m "Bump $PACKAGE_CATEGORY/$PACKAGE_NAME to $LATEST_TAG"
             git push -f -v origin $BRANCH_NAME
 
