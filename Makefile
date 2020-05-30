@@ -12,6 +12,7 @@ CLEAN?=false
 export TREE?=./
 BUILD_ARGS?=-d --pull --image-repository sabayonarm/mocaccinocache
 SUDO?=
+VALIDATE_OPTIONS?=-s
 
 .PHONY: all
 all: deps build
@@ -63,3 +64,6 @@ serve-repo:
 
 auto-bump:
 	$(ROOT_DIR)/scripts/auto-bump.sh
+
+validate:
+	$(LUET)  tree validate --tree $(TREE) $(VALIDATE_OPTIONS)
