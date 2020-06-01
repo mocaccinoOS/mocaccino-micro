@@ -1,0 +1,25 @@
+
+requires:
+- name: musl-toolchain
+  category: system
+  version: ">=0"
+- name: make
+  category: development
+  version: ">=0"
+- name: python
+  category: lang
+  version: ">=0"
+
+env:
+- MUSL_TARGET=x86_64-mocaccino-linux-musl
+- MUSL_ARCH=x86
+- MUSL_CPU=x86-64
+- CFLAGS=-Wno-error
+
+package_dir: /ninja
+prelude:
+- |
+   git clone https://github.com/ninja-build/ninja.git ${PACKAGE_NAME} && \
+   cd ${PACKAGE_NAME} && git checkout -b build v${PACKAGE_VERSION} && mkdir -p /${PACKAGE_NAME} && ./configure.py --bootstrap && \
+   mkdir -p /${PACKAGE_NAME}/usr/bin && cp -rfv ninja /${PACKAGE_NAME}/usr/bin && \
+   cp -rfv /${PACKAGE_NAME}/* /
