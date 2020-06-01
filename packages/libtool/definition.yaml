@@ -1,0 +1,7 @@
+name: libtool
+category: development
+version: "2.4.6"
+
+labels:
+  github.repo: "libtool"
+  github.owner: "autotools-mirror"
