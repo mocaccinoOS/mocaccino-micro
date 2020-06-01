@@ -1,0 +1,7 @@
+name: automake
+category: development
+version: "1.16.2"
+
+labels:
+  github.repo: "automake"
+  github.owner: "autotools-mirror"
