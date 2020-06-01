@@ -1,0 +1,7 @@
+name: libffi
+category: libs
+version: "3.3"
+
+labels:
+  github.repo: "libffi"
+  github.owner: "libffi"
