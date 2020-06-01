@@ -1,0 +1,7 @@
+name: patch
+category: development
+version: "2.7.6"
+
+labels:
+  github.repo: "patch"
+  github.owner: "mirror"
