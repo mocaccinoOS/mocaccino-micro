@@ -19,7 +19,7 @@ prelude:
    PACKAGE_VERSION=${PACKAGE_VERSION%\+*} && \
    wget https://zlib.net/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && \
    tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
-   cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && ./configure --prefix=/ && make DESTDIR=/${PACKAGE_NAME}
+   cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && ./configure --prefix=/usr && make DESTDIR=/${PACKAGE_NAME}
 
 steps:
 - cd ${PACKAGE_NAME} && make DESTDIR=/${PACKAGE_NAME} install && cp -rfv /zlib/* /
