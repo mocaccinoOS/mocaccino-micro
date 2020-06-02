@@ -1,0 +1,28 @@
+
+requires:
+- name: musl-toolchain
+  category: system
+  version: ">=0"
+- name: make
+  category: development
+  version: ">=0"
+- name: python
+  category: lang
+  version: ">=0"
+
+env:
+- MUSL_TARGET=x86_64-mocaccino-linux-musl
+- MUSL_ARCH=x86
+- MUSL_CPU=x86-64
+- CFLAGS=-Wno-error
+
+package_dir: /meson
+prelude:
+- |
+   git clone https://github.com/mesonbuild/meson ${PACKAGE_NAME} && \
+   cd ${PACKAGE_NAME} && git checkout -b build ${PACKAGE_VERSION} && mkdir -p /${PACKAGE_NAME} && \
+   python setup.py install \
+        --root /${PACKAGE_NAME} \
+        --single-version-externally-managed \
+        --verbose && \
+   cp -rfv /${PACKAGE_NAME}/* /

@@ -1,0 +1,7 @@
+name: meson
+category: development
+version: "0.54.2"
+
+labels:
+  github.repo: "ninja"
+  github.owner: "mesonbuild"
