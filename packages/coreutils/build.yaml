@@ -21,4 +21,4 @@ prelude:
    cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && ./configure --prefix=/ && echo $CFLAGS && echo $LDFLAGS && make DESTDIR=/${PACKAGE_NAME}
 
 steps:
-- cd ${PACKAGE_NAME} && make DESTDIR=/${PACKAGE_NAME} install
+- cd ${PACKAGE_NAME} && make DESTDIR=/${PACKAGE_NAME} install && make install

@@ -6,6 +6,9 @@ requires:
 - name: perl
   category: lang
   version: ">=0"
+- name: autoconf
+  category: utils
+  version: ">=0"
 
 env:
 - MUSL_TARGET=x86_64-mocaccino-linux-musl
