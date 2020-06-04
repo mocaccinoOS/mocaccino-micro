@@ -10,7 +10,7 @@ DESTINATION?=$(ROOT_DIR)/build
 COMPRESSION?=gzip
 CLEAN?=false
 export TREE?=./
-BUILD_ARGS?=-d --pull --image-repository sabayonarm/mocaccinocache
+BUILD_ARGS?=-d --image-repository sabayonarm/mocaccinocache
 SUDO?=
 VALIDATE_OPTIONS?=-s
 
