@@ -67,14 +67,12 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.DEPLOY_KEY }}
     - uses: aquiladev/ipfs-action@v0.1.2
+      id: upload
       with:
         path: ./build
-# - name: Deploy 🚀
-#   uses: JamesIves/github-pages-deploy-action@releases/v3
-#   with:
-#     SSH: true
-#     CLEAN: true
-#     BRANCH: master
-#     BASE_BRANCH: master
-#     REPOSITORY_NAME: mocaccinoOS/singularity-micro
-#     FOLDER: build # The folder the action should deploy.
+      name: Deploy 🚀
+    - name: Display hash 🚀
+      env:
+        HASH: ${{ steps.upload.outputs.hash }}
+      run: |
+        echo "Repository available at: https://ipfs.io/ipfs/$HASH/ . Check out repository yaml: https://ipfs.io/ipfs/$HASH/repository.yaml"
