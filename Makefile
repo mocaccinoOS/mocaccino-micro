@@ -50,8 +50,8 @@ create-repo:
 	$(SUDO) $(LUET) create-repo --tree "$(TREE)" \
     --output $(DESTINATION) \
     --packages $(DESTINATION) \
-    --name "luet-entropy-repo" \
-    --descr "Luet Entropy Repo" \
+    --name "mocaccino-micro" \
+    --descr "Mocaccino micro amd64" \
     --urls "http://localhost:8000" \
     --tree-compression gzip \
     --tree-filename tree.tar \
