@@ -1,0 +1,10 @@
+name: ruby
+category: lang
+version: "2.7.1"
+
+labels:
+  github.repo: "ruby"
+  github.owner: "ruby"
+  autobump.version_contains: '_'
+  autobump.strategy: "tag"
+  autobump.string_replace: '{ "_": "." }'
