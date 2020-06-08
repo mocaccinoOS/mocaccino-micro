@@ -68,7 +68,7 @@ jobs:
         ssh-private-key: ${{ secrets.DEPLOY_KEY }}
     - uses: aquiladev/ipfs-action@v1
       with:
-        path: ./build
+	path: ./build
 # - name: Deploy 🚀
 #   uses: JamesIves/github-pages-deploy-action@releases/v3
 #   with:
