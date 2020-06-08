@@ -66,7 +66,7 @@ jobs:
       uses: webfactory/ssh-agent@v0.2.0
       with:
         ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-    - uses: aquiladev/ipfs-action@v0.1.2
+    - uses: aquiladev/ipfs-action@v1
       with:
         path: ./build
 # - name: Deploy 🚀
