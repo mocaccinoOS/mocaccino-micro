@@ -1,0 +1,11 @@
+name: curl
+category: utils
+version: "7.70.0+2"
+requires:
+- name: musl
+  category: system
+  version: ">=0"
+
+labels:
+  github.repo: "curl"
+  github.owner: "curl"
