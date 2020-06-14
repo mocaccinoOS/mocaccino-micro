@@ -62,10 +62,10 @@ jobs:
         rm -rf luet
         curl -LO https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 && chmod +x container-diff-linux-amd64 && sudo mv container-diff-linux-amd64 /usr/local/bin/container-diff
         make build-all
-    - name: Install SSH Client 🔑
-      uses: webfactory/ssh-agent@v0.2.0
-      with:
-        ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+#    - name: Install SSH Client 🔑
+#      uses: webfactory/ssh-agent@v0.2.0
+#      with:
+#        ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 # - name: Deploy 🚀
 #   uses: JamesIves/github-pages-deploy-action@releases/v3
 #   with:
