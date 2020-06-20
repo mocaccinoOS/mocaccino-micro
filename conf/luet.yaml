@@ -9,7 +9,7 @@ repositories:
      cached: true
      priority: 1
      urls:
-       - "https://dispatcher.sabayon.org/sbi/namespace/mocaccino-micro"
+       - "https://mocaccino.keybase.pub/micro"
 
    - name: "luet-official"
      description: "Luet Official Repository"
