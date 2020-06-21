@@ -45,7 +45,7 @@ jobs:
         curl -LO https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 && chmod +x container-diff-linux-amd64 && sudo mv container-diff-linux-amd64 /usr/local/bin/container-diff
         make build-all create-repo
     - name: Deploy 🚀
-      if: contains(github.ref, "master")
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: |
         curl https://gist.githubusercontent.com/mudler/4fc89a4318e9987509727d4f5b47f546/raw/49e3cb612f8e9885082526744e2d8444320861c5/keybase.sh > keybase.sh
 
