@@ -10,7 +10,7 @@ DESTINATION?=$(ROOT_DIR)/build
 COMPRESSION?=gzip
 CLEAN?=false
 export TREE?=$(ROOT_DIR)/packages
-BUILD_ARGS?=-d --image-repository sabayonarm/mocaccinocache
+BUILD_ARGS?=-d --image-repository mocaccinoos/micro-cache
 SUDO?=
 VALIDATE_OPTIONS?=-s
 
