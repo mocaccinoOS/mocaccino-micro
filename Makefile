@@ -10,7 +10,7 @@ DESTINATION?=$(ROOT_DIR)/build
 COMPRESSION?=gzip
 CLEAN?=false
 export TREE?=$(ROOT_DIR)/packages
-BUILD_ARGS?=-d --pull --image-repository mocaccinoos/micro-cache
+BUILD_ARGS?=-d --pull --image-repository mocaccinoos/micro-amd64-cache
 SUDO?=
 VALIDATE_OPTIONS?=-s
 
