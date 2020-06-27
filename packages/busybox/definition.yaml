@@ -1,6 +1,6 @@
 name: busybox
 category: utils
-version: "1.31.1"
+version: "1.32.0"
 conflicts:
 - name: coreutils
   category: utils
@@ -9,7 +9,6 @@ requires:
 - name: musl
   category: system
   version: ">=0"
-
 labels:
   github.repo: "busybox"
   github.owner: "mirror"
