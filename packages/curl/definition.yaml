@@ -5,6 +5,9 @@ requires:
 - name: musl
   category: system
   version: ">=0"
+- name: libressl
+  category: libs
+  version: ">=0"
 
 labels:
   github.repo: "curl"

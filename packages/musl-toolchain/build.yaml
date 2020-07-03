@@ -12,6 +12,7 @@ package_dir: "/musl"
 # to not conflict with system/musl
 steps:
 - |
+  PACKAGE_VERSION=${PACKAGE_VERSION%\+*} && \
   apk update && \
   apk add git build-base make patch && \
   git clone https://github.com/richfelker/musl-cross-make && \
