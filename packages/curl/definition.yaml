@@ -8,6 +8,9 @@ requires:
 - name: libressl
   category: libs
   version: ">=0"
+- name: zlib
+  category: libs
+  version: ">=0"
 
 labels:
   github.repo: "curl"
