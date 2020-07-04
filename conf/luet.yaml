@@ -2,21 +2,12 @@ general:
   debug: false
 
 repositories:
-   - name: "mocaccino-micro"
-     description: "MocaccinoOS micro Repository"
-     type: "http"
-     enable: true
-     cached: true
-     priority: 1
-     urls:
-       - "https://mocaccino.keybase.pub/micro"
-
-   - name: "luet-official"
-     description: "Luet Official Repository"
-     type: "http"
-     enable: true
-     cached: true
-     priority: 1
-     urls:
-       - "https://raw.githubusercontent.com/Luet-lab/luet-repo/gh-pages"
+- name: "mocaccino-repository-index"
+  description: "MocaccinoOS Repository index"
+  type: "http"
+  enable: true
+  cached: true
+  priority: 1
+  urls:
+  - "https://mocaccino.keybase.pub/repository-index"
 
