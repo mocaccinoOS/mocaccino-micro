@@ -1,0 +1,15 @@
+
+requires:
+- name: busybox-static
+  category: utils
+  version: ">=0"
+
+package_dir: /busybox-init
+
+steps:
+- mkdir -p /${PACKAGE_NAME}/sbin
+- mv busybox-init /${PACKAGE_NAME}/sbin/init
+- mv busybox-linuxrc /${PACKAGE_NAME}/linuxrc
+- mv busybox-halt /${PACKAGE_NAME}/sbin/halt
+- mv busybox-poweroff /${PACKAGE_NAME}/sbin/poweroff
+- mv busybox-reboot /${PACKAGE_NAME}/sbin/reboot

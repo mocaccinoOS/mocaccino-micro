@@ -1,10 +1,7 @@
-name: busybox-static
+name: busybox-init
 category: utils
-version: "1.32.0+0"
-conflicts:
-- name: coreutils
-  category: utils
-  version: ">=0"
+version: "1.32.0"
+
 labels:
   github.repo: "busybox"
   github.owner: "mirror"
