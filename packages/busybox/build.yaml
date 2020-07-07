@@ -27,6 +27,7 @@ prelude:
 steps:
 - cd ${PACKAGE_NAME} && make CONFIG_PREFIX=/${PACKAGE_NAME} install
 - mkdir -p /${PACKAGE_NAME}/usr/share/udhcpc/ && cp -rfv udhcpc.conf /${PACKAGE_NAME}/usr/share/udhcpc/default.script
+- chmod +x /${PACKAGE_NAME}/usr/share/udhcpc/default.script
 - mv /${PACKAGE_NAME}/sbin/init busybox-init
 - mv /${PACKAGE_NAME}/linuxrc busybox-linuxrc
 - mv /${PACKAGE_NAME}/sbin/halt busybox-halt
