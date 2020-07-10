@@ -1,0 +1,7 @@
+name: gettext-tools
+category: libs
+version: "0.20.2"
+requires:
+- name: musl
+  category: system
+  version: ">=0"
