@@ -1,7 +1,7 @@
 requires:
 - name: musl-toolchain
   category: system
-  version: "0.9.9"
+  version: ">=0"
 - name: make
   category: development
   version: ">=0"

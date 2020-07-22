@@ -2,7 +2,7 @@
 requires:
 - name: musl-toolchain
   category: system
-  version: "0.9.9"
+  version: ">=0"
 - name: perl
   category: lang
   version: ">=0"
