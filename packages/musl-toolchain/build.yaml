@@ -33,4 +33,6 @@ steps:
   cp -rfv /musl/* / && \
   rm -rfv /musl/lib/ld-musl-x86_64.so.1 && \
   rm -rfv /musl/lib/libc.so && \
+  rm -rfv /musl/lib/libstdc++* && \
+  rm -rfv /musl/lib/libgcc* && \
   cd .. && rm -rf musl-cross-make

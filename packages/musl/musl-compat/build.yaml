@@ -1,0 +1,11 @@
+requires:
+- name: musl
+  category: system
+  version: ">=0"
+
+unpack: true
+
+includes:
+- ^/lib$
+- ^/lib/libgcc_s.*$
+- ^/lib/libstdc\+\+.*$
