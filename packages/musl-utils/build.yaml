@@ -8,7 +8,7 @@ env:
 - MUSL_TARGET=x86_64-mocaccino-linux-musl
 - MUSL_ARCH=x86
 - MUSL_CPU=x86-64
-
+- MUSL_CPU_LD=x86_64
 
 package_dir: /musl-utils
 prelude:
@@ -23,5 +23,6 @@ steps:
    mkdir -p /${PACKAGE_NAME}/sbin && \
    install -D getent getconf iconv /$PACKAGE_NAME/usr/bin && \
    install -D -m755 ldconfig "/$PACKAGE_NAME"/sbin && \
+   ln -s /lib/ld-musl-$MUSL_CPU_LD.so.1 /bin/ldd && \
    cp -rfv /${PACKAGE_NAME}/* /
   
