@@ -1,11 +1,10 @@
 name: gettext-tools
 category: libs
-version: "0.20.2"
+version: "0.21"
 requires:
 - name: musl
   category: system
   version: ">=0"
-
 labels:
   github.repo: "gettext"
   github.owner: "autotools-mirror"
