@@ -1,3 +1,7 @@
 name: texinfo
 category: development
 version: "6.7"
+
+uri:
+- https://www.gnu.org/software/texinfo
+license: "GPL-3"
