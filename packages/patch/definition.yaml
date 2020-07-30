@@ -5,3 +5,7 @@ version: "2.7.6"
 labels:
   github.repo: "patch"
   github.owner: "mirror"
+
+uri:
+- https://www.gnu.org/software/patch/patch.html
+license: "GPL-3+"
