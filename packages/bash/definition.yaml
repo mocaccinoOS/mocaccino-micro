@@ -12,3 +12,7 @@ labels:
   autobump.version_contains: '_'
   autobump.strategy: "tag"
   autobump.string_replace: '{ "_": "." }'
+
+uri:
+- http://tiswww.case.edu/php/chet/bash/bashtop.html
+license: "GPL-3"
