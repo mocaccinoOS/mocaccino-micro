@@ -15,3 +15,7 @@ labels:
   autobump.version_contains: '_'
   autobump.strategy: "tag"
   autobump.string_replace: '{ "_": "." }'
+
+uri:
+- https://www.busybox.net
+license: "GPL-2"
