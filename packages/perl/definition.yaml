@@ -5,3 +5,7 @@ version: "5.31.10"
 labels:
   github.repo: "perl5"
   github.owner: "Perl"
+
+uri:
+- https://www.perl.org
+license: "GPL-1+ Artistic"
