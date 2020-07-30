@@ -5,3 +5,7 @@ version: "2.4.6"
 labels:
   github.repo: "libtool"
   github.owner: "autotools-mirror"
+
+uri:
+- https://www.gnu.org/software/libtool
+license: "GPL-2"
