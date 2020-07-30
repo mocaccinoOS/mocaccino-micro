@@ -8,3 +8,7 @@ requires:
 labels:
   github.repo: "coreutils"
   github.owner: "coreutils"
+
+uri:
+- https://www.gnu.org/software/coreutils
+license: "GPL-3"
