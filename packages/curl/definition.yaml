@@ -15,3 +15,7 @@ requires:
 labels:
   github.repo: "curl"
   github.owner: "curl"
+
+uri:
+- https://curl.haxx.se
+license: "curl"
