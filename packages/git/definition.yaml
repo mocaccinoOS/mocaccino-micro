@@ -14,3 +14,7 @@ requires:
 labels:
   github.repo: "git"
   github.owner: "git"
+
+uri:
+- https://www.git-scm.com
+license: "GPL-2"
