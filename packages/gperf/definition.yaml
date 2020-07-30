@@ -2,3 +2,6 @@ name: gperf
 category: development
 version: "3.1"
 
+uri:
+- https://www.gnu.org/software/gperf
+license: "GPL-2"
