@@ -1,3 +1,7 @@
 name: file
 category: utils
 version: "5.37"
+
+uri:
+- http://www.darwinsys.com/file
+license: "BSD-2"
