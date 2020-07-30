@@ -8,3 +8,7 @@ requires:
 labels:
   github.repo: "gettext"
   github.owner: "autotools-mirror"
+
+uri:
+- https://www.gnu.org/software/gettext
+license: "GPL-3+"
