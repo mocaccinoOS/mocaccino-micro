@@ -1,3 +1,7 @@
 name: util-linux
 category: utils
 version: "2.35.2+1"
+
+uri:
+- https://www.kernel.org/pub/linux/utils/util-linux
+license: "GPL-2 GPL-3 LGPL-2.1 BSD-4 MIT public-domain"
