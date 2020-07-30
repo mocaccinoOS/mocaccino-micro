@@ -5,3 +5,7 @@ version: "1.16.2"
 labels:
   github.repo: "automake"
   github.owner: "autotools-mirror"
+
+uri:
+- https://www.gnu.org/software/automake
+license: "GPL-2"
