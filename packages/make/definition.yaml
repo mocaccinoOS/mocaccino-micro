@@ -7,3 +7,7 @@ labels:
   github.owner: "mirror"
   autobump.version_contains: '\\.'
   autobump.strategy: "tag"
+
+uri:
+- https://www.gnu.org/software/make/make.html
+license: "GPL-3+"
