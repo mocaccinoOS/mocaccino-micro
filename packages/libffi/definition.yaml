@@ -5,3 +5,7 @@ version: "3.3"
 labels:
   github.repo: "libffi"
   github.owner: "libffi"
+
+uri:
+- https://sourceware.org/libffi
+license: "MIT"
