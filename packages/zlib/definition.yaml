@@ -9,3 +9,7 @@ requires:
 labels:
   github.repo: "zlib"
   github.owner: "madler"
+
+uri:
+- https://zlib.net
+license: "ZLIB"
