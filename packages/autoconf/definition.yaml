@@ -5,3 +5,7 @@ version: "2.69"
 labels:
   github.repo: "autoconf"
   github.owner: "autotools-mirror"
+
+uri:
+- https://www.gnu.org/software/autoconf/autoconf.html
+license: "GPL-3"
