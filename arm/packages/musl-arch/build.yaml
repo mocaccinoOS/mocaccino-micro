@@ -1,0 +1,6 @@
+image: "alpine"
+
+env:
+- MUSL_TARGET=armv7a-mocaccino-linux-musl
+- MUSL_ARCH=arm
+- MUSL_CPU=armv7a
