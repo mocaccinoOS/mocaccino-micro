@@ -11,7 +11,7 @@ COMPRESSION?=gzip
 CLEAN?=false
 export COMMON_TREE?=$(ROOT_DIR)/multi-arch/packages
 export TREE?=$(ROOT_DIR)/amd64/packages
-BUILD_ARGS?=-d --pull --image-repository mocaccinoos/micro-amd64-cache --no-spinner
+BUILD_ARGS?=-d --pull --image-repository mocaccinoos/micro-amd64-cache --no-spinner --config $(ROOT_DIR)/conf/luet.yaml
 SUDO?=
 VALIDATE_OPTIONS?=-s
 
