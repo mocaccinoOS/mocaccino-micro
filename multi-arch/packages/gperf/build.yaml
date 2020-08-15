@@ -7,12 +7,6 @@ requires:
   category: development
   version: ">=0"
 
-env:
-- MUSL_TARGET=x86_64-mocaccino-linux-musl
-- MUSL_ARCH=x86
-- MUSL_CPU=x86-64
-
-
 package_dir: /gperf
 prelude:
 - |
