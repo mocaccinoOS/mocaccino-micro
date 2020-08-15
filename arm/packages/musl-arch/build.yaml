@@ -4,3 +4,4 @@ env:
 - MUSL_TARGET=armv7a-mocaccino-linux-musleabihf
 - MUSL_ARCH=arm
 - MUSL_CPU=armv7a
+- MUSL_CPU_LD=armv7a
