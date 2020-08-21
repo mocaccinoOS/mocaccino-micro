@@ -2,7 +2,7 @@ requires:
 - name: musl-toolchain
   category: system
   version: ">=0"
-- name: must-arch
+- name: musl-arch
   category: system
   version: ">=0"
 
