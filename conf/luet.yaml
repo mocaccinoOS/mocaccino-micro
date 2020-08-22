@@ -1,6 +1,9 @@
 general:
   debug: false
 
+  # spinner every 30m
+  spinner_ms: 1800000
+
 repositories:
 - name: "mocaccino-repository-index"
   description: "MocaccinoOS Repository index"

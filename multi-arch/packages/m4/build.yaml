@@ -1,0 +1,20 @@
+
+requires:
+- name: musl-toolchain
+  category: system
+  version: ">=0"
+- name: make
+  category: development
+  version: ">=0"
+
+package_dir: /m4
+prelude:
+- |
+   wget  http://ftp.gnu.org/gnu/m4/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
+   tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
+   cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && ./configure --prefix=/usr && make DESTDIR=/${PACKAGE_NAME}
+
+steps:
+- |
+  cd ${PACKAGE_NAME} && make DESTDIR=/${PACKAGE_NAME} install && \
+  cp -rfv /${PACKAGE_NAME}/* /

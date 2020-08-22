@@ -1,0 +1,21 @@
+
+requires:
+- name: musl-toolchain
+  category: system
+  version: ">=0"
+- name: make
+  category: development
+  version: ">=0"
+
+package_dir: /gperf
+prelude:
+- |
+   wget http://ftp.gnu.org/gnu/${PACKAGE_NAME}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && \
+   tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
+   cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && ./configure --prefix=/usr && make
+
+steps:
+- | 
+   cd ${PACKAGE_NAME} && make DESTDIR=/gperf install && \
+   cp -rfv /${PACKAGE_NAME}/* /
+  

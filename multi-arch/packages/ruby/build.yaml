@@ -1,0 +1,35 @@
+
+requires:
+- name: musl-toolchain
+  category: system
+  version: ">=0"
+- name: make
+  category: development
+  version: ">=0"
+- name: zlib
+  category: libs
+  version: ">=0"
+- name: libffi
+  category: libs
+  version: ">=0"
+- name: libressl
+  category: libs
+  version: ">=0"
+
+env:
+- CFLAGS="-Wno-error -I/include -I/usr/include"
+- LDFLAGS="-L/usr/lib -L/lib"
+- PKG_CONFIG_PATH="/usr/lib/pkgconfig"
+
+package_dir: /ruby
+
+steps:
+- | 
+   wget https://cache.ruby-lang.org/pub/${PACKAGE_NAME}/2.7/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && \
+   tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
+   cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && \
+   ./configure --prefix=/usr && make -j8 && \
+   make DESTDIR=/${PACKAGE_NAME} install && \
+   cp -rfv /${PACKAGE_NAME}/* / && cd .. && rm -rf ruby
+# TODO: replace symlink with update-alternatives
+#   cd /${PACKAGE_NAME}/usr/bin && ln -s python3 python && \

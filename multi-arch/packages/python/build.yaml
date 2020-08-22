@@ -1,0 +1,35 @@
+
+requires:
+- name: musl-toolchain
+  category: system
+  version: ">=0"
+- name: make
+  category: development
+  version: ">=0"
+- name: zlib
+  category: libs
+  version: ">=0"
+- name: libffi
+  category: libs
+  version: ">=0"
+- name: libressl
+  category: libs
+  version: ">=0"
+
+env:
+- CFLAGS="-Wno-error -I/include -I/usr/include"
+- LDFLAGS="-L/usr/lib -L/lib"
+- PKG_CONFIG_PATH="/usr/lib/pkgconfig"
+
+package_dir: /python
+
+steps:
+- | 
+   wget https://www.python.org/ftp/${PACKAGE_NAME}/${PACKAGE_VERSION}/Python-${PACKAGE_VERSION}.tar.xz && \
+   tar -xJf Python-${PACKAGE_VERSION}.tar.xz && mv Python-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
+   cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && \
+   ac_cv_enable_implicit_function_declaration_error=no ./configure --prefix=/usr --enable-optimizations --with-zlib-dir=/lib && make -j8 && \
+   make DESTDIR=/${PACKAGE_NAME} install && \
+   cd /${PACKAGE_NAME}/usr/bin && ln -s python3 python && \
+   cp -rfv /${PACKAGE_NAME}/* / && cd .. && rm -rf python
+# TODO: replace symlink with update-alternatives

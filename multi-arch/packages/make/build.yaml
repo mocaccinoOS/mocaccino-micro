@@ -1,0 +1,17 @@
+requires:
+- name: musl-toolchain
+  category: system
+  version: ">=0"
+
+package_dir: /make
+prelude:
+- |
+   wget http://ftp.gnu.org/gnu/make/make-${PACKAGE_VERSION}.tar.gz && \
+   tar -xvf make-${PACKAGE_VERSION}.tar.gz && mv make-${PACKAGE_VERSION} make && \
+   cd make && mkdir -p /make && ./configure --prefix=/usr && make DESTDIR=/make
+
+steps:
+- | 
+   cd make && make DESTDIR=/make install && \
+   apk del make && cp -rfv /make/* /
+  

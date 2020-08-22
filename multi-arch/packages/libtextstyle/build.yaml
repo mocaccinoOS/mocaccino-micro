@@ -1,0 +1,25 @@
+
+requires:
+- name: musl-toolchain
+  category: system
+  version: ">=0"
+- name: make
+  category: development
+  version: ">=0"
+
+env:
+- FORCE_UNSAFE_CONFIGURE=1
+- PACKAGE_NAME=gettext
+
+package_dir: /libtextstyle
+prelude:
+- |
+   wget http://ftp.gnu.org/gnu/${PACKAGE_NAME}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
+   tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
+   rm -rf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
+   cd ${PACKAGE_NAME}/libtextstyle && mkdir -p /libtextstyle && gt_cv_func_printf_posix=yes \
+   ./configure --prefix=/usr && \
+   make DESTDIR=/libtextstyle
+
+steps:
+- cd ${PACKAGE_NAME}/libtextstyle && make DESTDIR=/libtextstyle install && make install && cd ../../ && rm -rf ${PACKAGE_NAME} 

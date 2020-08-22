@@ -1,0 +1,14 @@
+requires:
+- name: musl-toolchain
+  category: system
+  version: ">=0"
+- name: musl-arch
+  category: system
+  version: ">=0"
+
+unpack: true
+
+includes:
+- ^/lib$
+- ^/lib/ld-musl-.*.so.1
+- ^/lib/libc.so$

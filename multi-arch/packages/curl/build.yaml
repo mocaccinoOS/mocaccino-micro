@@ -1,0 +1,34 @@
+
+requires:
+- name: musl-toolchain
+  category: system
+  version: ">=0"
+- name: make
+  category: development
+  version: ">=0"
+- name: libressl
+  category: libs
+  version: ">=0"
+env:
+- CFLAGS="-I/include -I/usr/include"
+
+package_dir: /curl
+prelude:
+- |
+   PACKAGE_VERSION=${PACKAGE_VERSION%\+*} && \
+   wget https://curl.haxx.se/download/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && \
+   tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
+   cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && ./configure --prefix=/usr \
+   --enable-ipv6 \
+   --enable-unix-sockets \
+   --enable-static \
+   --without-libidn \
+   --without-libidn2 \
+   --with-ssl \
+   --with-nghttp2 \
+   --disable-ldap \
+   --with-pic \
+   --without-libssh2 && make DESTDIR=/${PACKAGE_NAME}
+
+steps:
+- cd ${PACKAGE_NAME} && make DESTDIR=/${PACKAGE_NAME} install && cp -rfv /${PACKAGE_NAME}/* /

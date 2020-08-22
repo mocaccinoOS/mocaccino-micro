@@ -1,0 +1,24 @@
+requires:
+- name: musl-arch
+  category: system
+  version: ">=0"
+- name: musl-toolchain
+  category: system
+  version: ">=0"
+
+package_dir: /musl-utils
+prelude:
+- |
+   gcc -static getconf.c -o getconf && \
+   gcc -static getent.c -o getent && \
+   gcc -static iconv.c -o iconv
+
+steps:
+- | 
+   mkdir -p /${PACKAGE_NAME}/usr/bin && \
+   mkdir -p /${PACKAGE_NAME}/sbin && \
+   install -D getent getconf iconv /$PACKAGE_NAME/usr/bin && \
+   install -D -m755 ldconfig "/$PACKAGE_NAME"/sbin && \
+   ln -s /lib/ld-musl-$MUSL_CPU_LD.so.1 /bin/ldd && \
+   cp -rfv /${PACKAGE_NAME}/* /
+  

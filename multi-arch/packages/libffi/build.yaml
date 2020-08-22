@@ -1,0 +1,36 @@
+
+requires:
+- name: musl-toolchain
+  category: system
+  version: ">=0"
+- name: make
+  category: development
+  version: ">=0"
+- name: perl
+  category: lang
+  version: ">=0"
+- name: autoconf
+  category: utils
+  version: ">=0"
+- name: automake
+  category: development
+  version: ">=0"
+- name: libtool
+  category: development
+  version: ">=0"
+- name: texinfo
+  category: development
+  version: ">=0"
+
+env:
+- CFLAGS="-fPIC"
+
+package_dir: /libffi
+prelude:
+- |
+   git clone https://github.com/libffi/libffi ${PACKAGE_NAME} && \
+   cd ${PACKAGE_NAME} && git checkout -b build v${PACKAGE_VERSION} && mkdir -p /${PACKAGE_NAME} && \
+   ./autogen.sh && ./configure --prefix=/usr  && \
+   make -j8 && \
+   make DESTDIR=/${PACKAGE_NAME} install && \
+   cp -rfv /${PACKAGE_NAME}/* /

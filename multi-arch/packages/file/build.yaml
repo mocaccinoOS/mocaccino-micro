@@ -1,0 +1,25 @@
+requires:
+- name: musl-toolchain
+  category: system
+  version: ">=0"
+- name: make
+  category: development
+  version: ">=0"
+
+env:
+- CFLAGS="-static -Os -ffunction-sections -fdata-sections"
+- LDFLAGS="-Wl,--gc-sections"
+
+
+package_dir: /file
+prelude:
+- |
+   wget ftp://ftp.astron.com/pub/${PACKAGE_NAME}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && \
+   tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
+   cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && ./configure --prefix=/usr && make DESTDIR=/${PACKAGE_NAME}
+
+steps:
+- | 
+   cd ${PACKAGE_NAME} && make DESTDIR=/${PACKAGE_NAME} install && \
+   cp -rfv /${PACKAGE_NAME}/* /
+  

@@ -1,0 +1,38 @@
+
+requires:
+- name: musl-toolchain
+  category: system
+  version: ">=0"
+- name: make
+  category: development
+  version: ">=0"
+
+env:
+- FORCE_UNSAFE_CONFIGURE=1
+- PACKAGE_NAME=gettext
+- CFLAGS="-I/include -I/usr/include"
+- LDFLAGS="-L/usr/lib -I/lib"
+
+package_dir: /gettext-tools
+prelude:
+- |
+   wget http://ftp.gnu.org/gnu/${PACKAGE_NAME}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
+   tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
+   rm -rf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
+   cd ${PACKAGE_NAME}/libtextstyle && ./configure --prefix=/usr && \
+   make && make install && \
+   cd .. && \
+   cp -a /usr/include/textstyle* gettext-tools/src && \
+   cp -a /usr/lib/libtextstyle.* libtextstyle/lib && \
+   cd gettext-tools && mkdir -p /gettext-tools && gt_cv_func_printf_posix=yes \
+   ./configure --prefix=/usr --with-installed-libtextstyle --disable-java --disable-native-java --disable-csharp \
+   --disable-libasprintf --enable-threads=posix --disable-rpath --without-emacs \
+   --disable-acl --with-included-glib --with-included-libcroco --without-git \
+   --with-included-libxml --with-included-libunistring --disable-openmp  --without-included-gettext  \
+   --disable-curses --without-examples --enable-shared && \
+   make DESTDIR=/gettext-tools
+# wget http://ftp.gnu.org/gnu/${PACKAGE_NAME}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
+#   tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
+
+steps:
+- cd ${PACKAGE_NAME}/gettext-tools && make DESTDIR=/gettext-tools install && make install && cd ../../ && rm -rf ${PACKAGE_NAME} 
