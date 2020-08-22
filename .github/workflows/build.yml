@@ -7,19 +7,51 @@ on:
     branches: [ master, develop ]
 
 jobs:
+
+  generate-matrix:
+
+    name: Generate matrix for build
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install deps
+        env:
+          PREVIOUS: ${{ github.event.before }}
+        run: |
+          curl https://gist.githubusercontent.com/mudler/8b8d6c53c4669f4b9f9a72d1a2b92172/raw/e9d38b8e0702e7f1ef9a5db1bfa428add12a2d24/get_luet_root.sh | sudo sh
+          sudo wget https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 -O /usr/bin/jq
+          sudo chmod a+x /usr/bin/jq
+          sudo luet install system/container-diff system/luet-extensions
+          sudo luet install utils/keybase-tools
+      - name: Set matrix for build
+        id: set-matrix
+        run: |
+          JSON="{\"include\":"
+
+          JSONline="$(luet tree pkglist --tree multi-arch -t amd64 -o json | jq -rc '.packages')"
+          JSON="$JSON$JSONline"
+          JSON="$JSON}"
+
+          # Set output
+          echo "::set-output name=matrix::$( echo "$JSON" )"
+
   build:
     runs-on: ubuntu-latest
+    needs: generate-matrix
+    strategy:
+      matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
     steps:
     - uses: actions/checkout@v2
+
     - run: |
         git fetch --prune --unshallow
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
+
     - name: setup-docker
       uses: docker-practice/actions-setup-docker@0.0.1
     # https://github.community/t/worker-running-out-of-disk-space/18245
+
     - name: Patch Docker Daemon data-root
       run: |
         DOCKER_DATA_ROOT='/mnt/var/lib/docker'
@@ -28,47 +60,105 @@ jobs:
         jq --arg dataroot "${DOCKER_DATA_ROOT}" '. + {"data-root": $dataroot}' "${DOCKER_DAEMON_JSON}" > "/tmp/docker.json.tmp"
         sudo mv "/tmp/docker.json.tmp" "${DOCKER_DAEMON_JSON}"
         sudo systemctl restart docker
+
     - uses: actions/setup-go@v2
       with:
         go-version: '^1.14.3' # The Go version to download (if necessary) and use.
+
     - name: Login to DockerHub Registry
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: echo ${{ secrets.DOCKERIO_PASSWORD }} | docker login -u ${{ secrets.DOCKERIO_USERNAME }} --password-stdin
-    - name: Set Push options
-      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      run: echo ::set-env name=BUILD_ARGS::--pull --push --image-repository mocaccinoos/micro-amd64-cache
-    - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
+
+    - name: Install deps
       env:
         PREVIOUS: ${{ github.event.before }}
+        BUILD_ARGS: "--pull --push --image-repository mocaccinoos/micro-amd64-cache"
       run: |
-        make deps
-        git clone https://github.com/mudler/luet.git
-        cd luet
-        git checkout develop
-        make build && sudo cp -rfv luet /usr/bin/luet
-        cd ..
-        rm -rf luet
-        curl -LO https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 && chmod +x container-diff-linux-amd64 && sudo mv container-diff-linux-amd64 /usr/local/bin/container-diff
-        make build-all create-repo
-    - name: Deploy 🚀
-      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      run: |
-        curl https://gist.githubusercontent.com/mudler/4fc89a4318e9987509727d4f5b47f546/raw/49e3cb612f8e9885082526744e2d8444320861c5/keybase.sh > keybase.sh
+        curl https://gist.githubusercontent.com/mudler/8b8d6c53c4669f4b9f9a72d1a2b92172/raw/e9d38b8e0702e7f1ef9a5db1bfa428add12a2d24/get_luet_root.sh | sudo sh
+        #sudo luet install system/container-diff system/luet-extensions repository/mocaccino-extra
+        sudo luet install system/container-diff system/luet-extensions
+        sudo luet install utils/keybase-tools
 
-        docker run --rm \
-        -e KEYBASE_DEVICENAME=$KEYBASE_DEVICENAME -e KEYBASE_USERNAME="$KEYBASE_USERNAME" \
-        -e KEYBASE_PAPERKEY="$KEYBASE_PAPERKEY" \
-        -e KEYBASE_SERVICE=1 -v $PWD:/data -v $PWD/keybase.sh:/keybase.sh \
-        keybaseio/client:stable \
-        bash /keybase.sh fs rm -r '/keybase/public/mocaccino/micro/*' || true
-
-        docker run --rm \
-        -e KEYBASE_DEVICENAME=$KEYBASE_DEVICENAME -e KEYBASE_USERNAME="$KEYBASE_USERNAME" \
-        -e KEYBASE_PAPERKEY="$KEYBASE_PAPERKEY" \
-        -e KEYBASE_SERVICE=1 -v $PWD/build:/data -v $PWD/keybase.sh:/keybase.sh \
-        keybaseio/client:stable \
-        bash /keybase.sh fs cp -r -f '/data/*' /keybase/public/mocaccino/micro
+    - name: Get existing repository metadata
       env:
         KEYBASE_DEVICENAME: ${{ secrets.KEYBASE_DEVICENAME }}
         KEYBASE_PAPERKEY: ${{ secrets.KEYBASE_PAPERKEY }}
         KEYBASE_USERNAME: ${{ secrets.KEYBASE_USERNAME }}
+      run: |
+        mkdir $PWD/build
+        chmod -R 777 $PWD/build
+        keybase-download '/keybase/public/mocaccino/micro/*.yaml' $PWD/build
+        ls -liah $PWD/build
+
+    - name: Build packages 🔧
+      env:
+        BUILD_ARGS: "--pull --push --image-repository mocaccinoos/micro-amd64-cache --skip-if-metadata-exists=true"
+        CLEAN: "false"
+        TARGET: "target"
+        PACKAGES: ${{ matrix.category }}/${{ matrix.name }}
+      run: |
+        make rebuild
+        ls -liah $PWD/build
+
+    - name: Update repository 🚀
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      run: |
+        keybase-append $PWD/build/ /keybase/public/mocaccino/micro
+      env:
+        KEYBASE_DEVICENAME: ${{ secrets.KEYBASE_DEVICENAME }}
+        KEYBASE_PAPERKEY: ${{ secrets.KEYBASE_PAPERKEY }}
+        KEYBASE_USERNAME: ${{ secrets.KEYBASE_USERNAME }}
+
+  create-repo:
+    runs-on: ubuntu-latest
+    needs: build
+    continue-on-error: true
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - run: |
+        git fetch --prune --unshallow
+
+    - uses: actions/setup-go@v2
+      with:
+        go-version: '^1.14.3'
+
+    - name: Install deps
+      env:
+        PREVIOUS: ${{ github.event.before }}
+        BUILD_ARGS: "--pull --push --image-repository mocaccinoos/micro-amd64-cache"
+      run: |
+        curl https://gist.githubusercontent.com/mudler/8b8d6c53c4669f4b9f9a72d1a2b92172/raw/e9d38b8e0702e7f1ef9a5db1bfa428add12a2d24/get_luet_root.sh | sudo sh
+        #sudo luet install system/container-diff system/luet-extensions repository/mocaccino-extra
+        sudo luet install system/container-diff system/luet-extensions
+        sudo luet install utils/keybase-tools
+
+    - name: Get existing repository metadata
+      env:
+        KEYBASE_DEVICENAME: ${{ secrets.KEYBASE_DEVICENAME }}
+        KEYBASE_PAPERKEY: ${{ secrets.KEYBASE_PAPERKEY }}
+        KEYBASE_USERNAME: ${{ secrets.KEYBASE_USERNAME }}
+      run: |
+        mkdir $PWD/build
+        chmod -R 777 $PWD/build
+        keybase-download '/keybase/public/mocaccino/micro/*.yaml' $PWD/build
+        ls -liah $PWD/build
+
+    #- name: Setup tmate session
+    #  uses: mxschmitt/action-tmate@v2
+    - name: Create repo 🔧
+      run: |
+        make create-repo
+        ls -liah $PWD/build
+
+    - name: Update repository 🚀
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      run: |
+        keybase-append $PWD/build/ /keybase/public/mocaccino/micro
+      env:
+        KEYBASE_DEVICENAME: ${{ secrets.KEYBASE_DEVICENAME }}
+        KEYBASE_PAPERKEY: ${{ secrets.KEYBASE_PAPERKEY }}
+        KEYBASE_USERNAME: ${{ secrets.KEYBASE_USERNAME }}
+        APPEND: "false"
+
