@@ -95,6 +95,7 @@ jobs:
         BUILD_ARGS: "--pull --push --image-repository mocaccinoos/micro-amd64-cache --skip-if-metadata-exists=true"
         CLEAN: "false"
         TARGET: "target"
+        SUDO: "sudo -E"
         PACKAGES: ${{ matrix.category }}/${{ matrix.name }}
       run: |
         make rebuild
