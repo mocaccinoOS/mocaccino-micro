@@ -14,6 +14,7 @@ export TREE?=$(ROOT_DIR)/amd64/packages
 BUILD_ARGS?=-d --pull --image-repository mocaccinoos/micro-amd64-cache --no-spinner --config $(ROOT_DIR)/conf/luet.yaml
 SUDO?=
 VALIDATE_OPTIONS?=-s
+ARCH?=amd64
 
 .PHONY: all
 all: deps build
@@ -52,7 +53,7 @@ create-repo:
     --output $(DESTINATION) \
     --packages $(DESTINATION) \
     --name "mocaccino-micro" \
-    --descr "Mocaccino micro amd64" \
+    --descr "Mocaccino micro $(ARCH)" \
     --urls "http://localhost:8000" \
     --tree-compression gzip \
     --tree-filename tree.tar \
