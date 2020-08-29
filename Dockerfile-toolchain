@@ -1,5 +1,5 @@
 FROM quay.io/luet/base:develop
-ADD conf/luet.yaml /etc/luet/luet.yaml
+ADD conf/luet.yaml.docker /etc/luet/luet.yaml
 
 ENV USER=root
 
