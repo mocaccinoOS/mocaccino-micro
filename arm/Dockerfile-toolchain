@@ -1,4 +1,4 @@
-FROM luetpm/luet:latest
+FROM luetpm/luet:latest-arm
 ADD conf/luet.yaml.docker /etc/luet/luet.yaml
 
 ENV USER=root
