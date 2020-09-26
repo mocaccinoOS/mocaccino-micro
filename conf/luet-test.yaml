@@ -1,0 +1,24 @@
+general:
+  debug: false
+
+  # spinner every 30m
+  spinner_ms: 1800000
+
+system:
+  rootfs: /test
+  database_path: "/luetdb"
+  database_engine: "boltdb"
+repos_confdir:
+  - /test/etc/luet/repos.conf.d
+
+
+repositories:
+- name: "mocaccino-repository-index"
+  description: "MocaccinoOS Repository index"
+  type: "http"
+  enable: true
+  cached: true
+  priority: 1
+  urls:
+  - "https://mocaccino.keybase.pub/repository-index"
+
