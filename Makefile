@@ -11,10 +11,16 @@ COMPRESSION?=gzip
 CLEAN?=false
 export COMMON_TREE?=$(ROOT_DIR)/multi-arch/packages
 export TREE?=$(ROOT_DIR)/amd64/packages
-BUILD_ARGS?=-d --pull --image-repository mocaccinoos/micro-amd64-cache --no-spinner --config $(ROOT_DIR)/conf/luet.yaml
+REPO_CACHE?=mocaccinoos/micro-amd64-cache
+export REPO_CACHE
+BUILD_ARGS?=--pull --no-spinner --config $(ROOT_DIR)/conf/luet.yaml
 SUDO?=
 VALIDATE_OPTIONS?=-s
 ARCH?=amd64
+
+ifneq ($(strip $(REPO_CACHE)),)
+	BUILD_ARGS+=--image-repository $(REPO_CACHE)
+endif
 
 .PHONY: all
 all: deps build
