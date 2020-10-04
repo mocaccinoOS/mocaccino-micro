@@ -19,7 +19,7 @@ jobs:
         env:
           PREVIOUS: ${{ github.event.before }}
         run: |
-          curl https://gist.githubusercontent.com/mudler/8b8d6c53c4669f4b9f9a72d1a2b92172/raw/e9d38b8e0702e7f1ef9a5db1bfa428add12a2d24/get_luet_root.sh | sudo sh
+          curl https://get.mocaccino.org/luet/get_luet_root.sh | sudo sh
           sudo wget https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 -O /usr/bin/jq
           sudo chmod a+x /usr/bin/jq
           sudo luet install system/container-diff system/luet-extensions
@@ -73,7 +73,7 @@ jobs:
         PREVIOUS: ${{ github.event.before }}
         BUILD_ARGS: "--pull --push --image-repository mocaccinoos/micro-amd64-cache"
       run: |
-        curl https://gist.githubusercontent.com/mudler/8b8d6c53c4669f4b9f9a72d1a2b92172/raw/e9d38b8e0702e7f1ef9a5db1bfa428add12a2d24/get_luet_root.sh | sudo sh
+        curl https://get.mocaccino.org/luet/get_luet_root.sh | sudo sh
         #sudo luet install system/container-diff system/luet-extensions repository/mocaccino-extra
         sudo luet install system/container-diff system/luet-extensions
         sudo luet install utils/keybase-tools # Get minio
