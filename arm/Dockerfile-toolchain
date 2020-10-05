@@ -1,5 +1,6 @@
 FROM luetpm/luet:latest-arm
 ADD conf/luet.yaml.docker /etc/luet/luet.yaml
+ADD conf/repos.conf.d/ /etc/luet/repos.conf.d
 
 ENV USER=root
 
