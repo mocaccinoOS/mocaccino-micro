@@ -1,11 +1,9 @@
 name: ninja
 category: development
-version: "1.10.0"
-
+version: "1.10.1"
 labels:
   github.repo: "ninja"
   github.owner: "ninja-build"
-
 uri:
 - https://ninja-build.org
 license: "Apache-2.0"
