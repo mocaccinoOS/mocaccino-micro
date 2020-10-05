@@ -1,0 +1,87 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: |
+        git fetch --prune --unshallow
+
+    - name: setup-docker
+      uses: docker-practice/actions-setup-docker@0.0.1
+    # https://github.community/t/worker-running-out-of-disk-space/18245
+
+    - name: Patch Docker Daemon data-root
+      run: |
+        DOCKER_DATA_ROOT='/mnt/var/lib/docker'
+        DOCKER_DAEMON_JSON='/etc/docker/daemon.json'
+        sudo mkdir -p "${DOCKER_DATA_ROOT}"
+        jq --arg dataroot "${DOCKER_DATA_ROOT}" '. + {"data-root": $dataroot}' "${DOCKER_DAEMON_JSON}" > "/tmp/docker.json.tmp"
+        sudo mv "/tmp/docker.json.tmp" "${DOCKER_DAEMON_JSON}"
+        sudo systemctl restart docker
+
+    - uses: actions/setup-go@v2
+      with:
+        go-version: '^1.14.3' # The Go version to download (if necessary) and use.
+
+    - name: Login to DockerHub Registry
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      run: echo ${{ secrets.DOCKERIO_PASSWORD }} | docker login -u ${{ secrets.DOCKERIO_USERNAME }} --password-stdin
+    - name: Login to DockerHub Registry
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      run: echo ${{ secrets.DOCKERIO_PASSWORD }} | docker login -u ${{ secrets.DOCKERIO_USERNAME }} --password-stdin
+    - name: Install minio and login
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      env:
+        MINIO_API_URL: ${{ secrets.MINIO_API_URL }}
+        MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}
+        MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}
+      run: |
+        sudo wget https://dl.min.io/client/mc/release/linux-amd64/mc -O /usr/bin/mc
+        sudo chmod +x /usr/bin/mc
+        mc alias set minio $MINIO_API_URL $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
+
+    - name: Install deps
+      env:
+        PREVIOUS: ${{ github.event.before }}
+        BUILD_ARGS: "--pull --push --image-repository mocaccinoos/micro-amd64-cache"
+      run: |
+        curl https://get.mocaccino.org/luet/get_luet_root.sh | sudo sh
+        #sudo luet install system/container-diff system/luet-extensions repository/mocaccino-extra
+        sudo luet install system/container-diff system/luet-extensions
+        sudo luet install utils/keybase-tools # Get minio
+
+    - name: Install minio and login
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      env:
+        MINIO_API_URL: ${{ secrets.MINIO_API_URL }}
+        MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}
+        MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}
+      run: |
+        sudo wget https://dl.min.io/client/mc/release/linux-amd64/mc -O /usr/bin/mc
+        sudo chmod +x /usr/bin/mc
+        mc alias set minio $MINIO_API_URL $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
+
+    - name: Get existing repository metadata
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      run: |
+        mkdir $PWD/build
+        chmod -R 777 $PWD/build
+        mc mirror  --exclude '*.gz' minio/mocaccino-micro/ $PWD/build
+        ls -liah $PWD/build
+
+    - name: Build packages 🔧
+      env:
+        BUILD_ARGS: "--pull --push --image-repository mocaccinoos/micro-amd64-cache --skip-if-metadata-exists=true"
+        CLEAN: "false"
+        TARGET: "target"
+        SUDO: "sudo -E"
+      run: |
+        make rebuild-all
+        ls -liah $PWD/build

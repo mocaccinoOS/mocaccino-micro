@@ -164,5 +164,3 @@ jobs:
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: |
         mc cp --recursive $PWD/build/ minio/mocaccino-micro/
-
-
