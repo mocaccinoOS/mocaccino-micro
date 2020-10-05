@@ -13,7 +13,7 @@ export COMMON_TREE?=$(ROOT_DIR)/multi-arch/packages
 export TREE?=$(ROOT_DIR)/amd64/packages
 REPO_CACHE?=mocaccinoos/micro-amd64-cache
 export REPO_CACHE
-BUILD_ARGS?=--pull --no-spinner --config $(ROOT_DIR)/conf/luet.yaml
+BUILD_ARGS?=--pull --no-spinner --config $(ROOT_DIR)/conf/luet.yaml --skip-if-metadata-exists=true
 SUDO?=
 VALIDATE_OPTIONS?=-s
 ARCH?=amd64
