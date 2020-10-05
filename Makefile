@@ -71,7 +71,7 @@ serve-repo:
 	LUET_NOLOCK=true $(LUET) serve-repo --port 8000 --dir $(ROOT_DIR)/build
 
 auto-bump:
-	TREE_DIR=$(TREE) $(LUET) autobump-github
+	TREE_DIR=$(ROOT_DIR) $(LUET) autobump-github
 
 validate:
 	$(LUET)  tree validate --tree $(TREE) --tree=$(COMMON_TREE) $(VALIDATE_OPTIONS)
