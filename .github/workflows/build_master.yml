@@ -27,7 +27,7 @@ jobs:
         run: |
           JSON="{\"include\":"
 
-          JSONline="$(luet tree pkglist --tree ./ -t multi-arch -o json | jq -rc '.packages')"
+          JSONline="$(luet tree pkglist --tree amd64 -t multi-arch -o json | jq -rc '.packages')"
           JSON="$JSON$JSONline"
           JSON="$JSON}"
 
