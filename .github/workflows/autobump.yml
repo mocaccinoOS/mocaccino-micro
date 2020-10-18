@@ -1,0 +1,41 @@
+
+name: Autobump
+
+on:
+  push:
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+    - run: |
+        git fetch --prune --unshallow
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.MARVIN_PRIVATE_KEY }}
+    - name: Autobump 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
+      run: |
+        curl  https://gist.githubusercontent.com/mudler/8b8d6c53c4669f4b9f9a72d1a2b92172/raw/114dcc00bad41896f8614cc0214f834b95a1e2a6/get_luet_root.sh | sh
+        luet install system/luet-extensions
+        bash -ex .github/setup_ssh.sh
+        bash -ex .github/setup_git_repo.sh
+      - pushd /root/repo
+      - git checkout master
+      - TREE_DIR=/root/repo/multi-arch/packages luet autobump-github
+      env:
+        GIT_AUTHOR_NAME: MarvinHatesOceans
+        GIT_AUTHOR_EMAIL: github-bots@sabayon.com
+        GIT_COMMITTER_NAME: MarvinHatesOceans
+        GIT_COMMITTER_EMAIL: github-bots@sabayon.com
+        FORK_REPO: git@github.com:auto-maintainers/mocaccino-micro.git
+        UPSTREAM_REPO: git@github.com:mocaccinoOS/mocaccino-micro.git
+        WORK_BRANCH: bumps
