@@ -1,21 +1,19 @@
 name: curl
+version: 7.70.0+3
 category: utils
-version: "7.70.0+2"
 requires:
 - name: musl
+  version: '>=0'
   category: system
-  version: ">=0"
 - name: libressl
+  version: '>=0'
   category: libs
-  version: ">=0"
 - name: zlib
+  version: '>=0'
   category: libs
-  version: ">=0"
-
-labels:
-  github.repo: "curl"
-  github.owner: "curl"
-
 uri:
 - https://curl.haxx.se
-license: "curl"
+license: curl
+labels:
+  github.owner: curl
+  github.repo: curl
