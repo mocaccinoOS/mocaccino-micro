@@ -8,6 +8,7 @@ requires:
 labels:
   github.repo: "portable"
   github.owner: "libressl-portable"
+  autobump.revdeps: "true"
 uri:
 - https://www.libressl.org
 license: "ISC openssl"
