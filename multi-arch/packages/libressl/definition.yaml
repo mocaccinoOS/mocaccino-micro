@@ -1,14 +1,14 @@
 name: libressl
 category: libs
-version: "3.2.1"
+version: "3.2.2"
 requires:
-- name: ca-certificates
-  category: utils
-  version: ">=0"
+  - name: ca-certificates
+    category: utils
+    version: ">=0"
 labels:
   github.repo: "portable"
   github.owner: "libressl-portable"
   autobump.revdeps: "true"
 uri:
-- https://www.libressl.org
+  - https://www.libressl.org
 license: "ISC openssl"
