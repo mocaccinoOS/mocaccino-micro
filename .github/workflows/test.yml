@@ -80,7 +80,7 @@ jobs:
 
     - name: Build packages 🔧
       env:
-        CLEAN: "false"
+        CLEAN: "true"
         TARGET: "target"
         SUDO: "sudo -E"
       run: |
