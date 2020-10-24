@@ -1,20 +1,19 @@
 name: git
 category: vcs
-version: "2.28.0"
+version: "2.29.1"
 requires:
-- name: musl
-  category: system
-  version: ">=0"
-- name: perl
-  category: lang
-  version: ">=0"
-- name: zlib
-  category: libs
-  version: ">=0"
+  - name: musl
+    category: system
+    version: ">=0"
+  - name: perl
+    category: lang
+    version: ">=0"
+  - name: zlib
+    category: libs
+    version: ">=0"
 labels:
   github.repo: "git"
   github.owner: "git"
-
 uri:
-- https://www.git-scm.com
+  - https://www.git-scm.com
 license: "GPL-2"
