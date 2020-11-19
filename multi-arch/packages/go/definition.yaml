@@ -1,6 +1,6 @@
 name: go
 category: lang
-version: "1.15.3"
+version: "1.15.5"
 labels:
   github.repo: "go"
   github.owner: "golang"
@@ -9,5 +9,5 @@ labels:
   # autobump.trim_prefix: "go"
   autobump.string_replace: '{ "go": "" }'
 uri:
-- https://golang.org
+  - https://golang.org
 license: "BSD"
