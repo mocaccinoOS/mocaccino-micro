@@ -4,7 +4,7 @@ ADD conf/repos.conf.d/ /etc/luet/repos.conf.d
 
 ENV USER=root
 
-SHELL ["/usr/bin/luet", "install", "-d"]
+SHELL ["/usr/bin/luet", "install", "-y", "-d"]
 
 RUN repository/luet
 RUN repository/mocaccino-micro
