@@ -56,8 +56,8 @@ jobs:
       run: |
         curl https://get.mocaccino.org/luet/get_luet_root.sh | sudo sh
         #sudo luet install system/container-diff system/luet-extensions repository/mocaccino-extra
-        sudo luet install system/container-diff system/luet-extensions
-        sudo luet install utils/keybase-tools # Get minio
+        sudo luet install -y system/container-diff system/luet-extensions
+        sudo luet install -y utils/keybase-tools # Get minio
 
     - name: Install minio and login
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
