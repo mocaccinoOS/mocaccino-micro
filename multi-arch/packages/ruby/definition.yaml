@@ -1,14 +1,12 @@
 name: ruby
 category: lang
-version: "2.7.1"
-
+version: 2.7.1+1
 labels:
   github.repo: "ruby"
   github.owner: "ruby"
   autobump.version_contains: '_'
   autobump.strategy: "tag"
   autobump.string_replace: '{ "_": "." }'
-
 uri:
-- https://www.ruby-lang.org
+  - https://www.ruby-lang.org
 license: "Ruby-BSD BSD-2"
