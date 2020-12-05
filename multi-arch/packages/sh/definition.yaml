@@ -1,0 +1,10 @@
+name: sh
+category: shells
+version: 1
+
+description: "Virtual for sh"
+
+requires:
+- name: bash
+  category: shells
+  version: ">=0"

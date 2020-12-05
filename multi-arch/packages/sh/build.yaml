@@ -1,0 +1,11 @@
+
+requires:
+- name: musl-toolchain
+  category: system
+  version: ">=0"
+- name: bash
+  category: shells
+  version: ">=0"
+
+steps:
+- ln -s /bin/bash /bin/sh
