@@ -26,3 +26,8 @@ steps:
 - mv /${PACKAGE_NAME}/sbin/halt busybox-halt
 - mv /${PACKAGE_NAME}/sbin/poweroff busybox-poweroff
 - mv /${PACKAGE_NAME}/sbin/reboot busybox-reboot
+
+excludes:
+# Shipped by utils/xz
+- /usr/bin/xz
+- /usr/bin/unxz
