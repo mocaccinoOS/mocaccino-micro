@@ -7,7 +7,7 @@ ENV USER=root
 SHELL ["/usr/bin/luet", "install", "-y", "-d"]
 
 RUN repository/luet
-RUN repository/mocaccino-micro
+RUN repository/mocaccino-micro-stable
 RUN utils/busybox
 
 SHELL ["/bin/sh", "-c"]
