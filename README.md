@@ -5,10 +5,6 @@
 Musl based distro. Targeting containers and servers. Not completely static, few of the packages are, depending on the scope and security support.
 
 - [luet](https://github.com/mudler/luet) as a Package Manager and Building toolchain
-- [s6](http://skarnet.org/software/s6/) as an init system
-
-## To package yet:
-- [s6/66](https://framagit.org/Obarun/66/-/tree/master)
 
 ## How to build all mocaccino-micro packages
 
