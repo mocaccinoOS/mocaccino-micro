@@ -31,3 +31,7 @@ excludes:
 # Shipped by utils/xz
 - /usr/bin/xz
 - /usr/bin/unxz
+# Shipped by kmod
+- /sbin/depmod
+- /sbin/lsmod
+- /sbin/modprobe
