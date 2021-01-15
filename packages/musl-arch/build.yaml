@@ -6,4 +6,4 @@ env:
 - MUSL_CPU={{ .Values.cpu }}
 {{- if .Values.cpu_ld }}
 - MUSL_CPU_LD={{ .Values.cpu_ld }}
-{{- endif }}
+{{- end }}
