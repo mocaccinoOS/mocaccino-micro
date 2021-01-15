@@ -1,0 +1,4 @@
+target: "armv7a-mocaccino-linux-musleabihf"
+arch: "arm"
+cpu: "armv7a"
+cpu_ld: "armv7a"

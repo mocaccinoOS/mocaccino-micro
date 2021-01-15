@@ -1,0 +1,3 @@
+target: "x86_64-mocaccino-linux-musl"
+arch: "x86"
+cpu: "x86-64"
