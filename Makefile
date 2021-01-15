@@ -58,7 +58,7 @@ create-repo:
     --output $(DESTINATION) \
     --packages $(DESTINATION) \
     --name "mocaccino-micro" \
-    --descr "Mocaccino micro $(ARCH) $(ARCH)" \
+    --descr "Mocaccino Micro $(ARCH)" \
     --urls "http://localhost:8000" \
     --tree-compression gzip \
     --tree-filename tree.tar \
