@@ -23,7 +23,7 @@ env:
 
 package_dir: /ruby
 
-{{- if eq .Values.arch "x86" }}
+{{- if eq (default $.Values.arch "x86") "x86" }}
 steps:
 - |
   PACKAGE_VERSION=${PACKAGE_VERSION%\+*} && \
