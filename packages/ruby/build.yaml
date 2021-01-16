@@ -23,13 +23,16 @@ env:
 
 package_dir: /ruby
 
+{{- if eq .Values.arch "x86" }}
 steps:
-- | 
-   wget https://cache.ruby-lang.org/pub/${PACKAGE_NAME}/2.7/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && \
-   tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
-   cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && \
-   ./configure --prefix=/usr && make -j8 && \
-   make DESTDIR=/${PACKAGE_NAME} install && \
-   cp -rfv /${PACKAGE_NAME}/* / && cd .. && rm -rf ruby
+- |
+  PACKAGE_VERSION=${PACKAGE_VERSION%\+*} && \
+  wget https://cache.ruby-lang.org/pub/{{ .Values.name }}/2.7/{{ .Values.name }}-${PACKAGE_VERSION}.tar.gz && \
+  tar -xvf {{ .Values.name }}-${PACKAGE_VERSION}.tar.gz && mv {{ .Values.name }}-${PACKAGE_VERSION} {{ .Values.name }} && \
+  cd {{ .Values.name }} && mkdir -p /{{ .Values.name }} && \
+  ./configure --prefix=/usr && make -j8 && \
+  make DESTDIR=/{{ .Values.name }} install && \
+  cp -rfv /{{ .Values.name }}/* / && cd .. && rm -rf ruby
 # TODO: replace symlink with update-alternatives
 #   cd /${PACKAGE_NAME}/usr/bin && ln -s python3 python && \
+{{- end }}
