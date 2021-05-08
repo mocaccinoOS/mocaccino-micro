@@ -1,9 +1,13 @@
 name: python
 category: lang
-version: 3.9.0+1
+version: 3.9.5
 labels:
   github.repo: "cpython"
   github.owner: "python"
+  autobump.hook: |
+      eval "$(curl -L -s https://git.alpinelinux.org/aports/plain/main/python3/APKBUILD)" && echo $pkgver
+  autobump.version_hook: |
+      eval "$(curl -L -s https://git.alpinelinux.org/aports/plain/main/python3/APKBUILD)" && echo $pkgver
 uri:
   - https://www.python.org
 license: "PSF-2"
