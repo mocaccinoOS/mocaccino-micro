@@ -1,11 +1,9 @@
 name: meson
 category: development
-version: "0.54.2"
-
+version: 0.54.2+1
 labels:
   github.repo: "ninja"
   github.owner: "mesonbuild"
-
 uri:
-- https://mesonbuild.com
+  - https://mesonbuild.com
 license: "Apache-2.0"
