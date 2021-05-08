@@ -16,6 +16,7 @@ env:
 package_dir: /meson
 prelude:
 - |
+   PACKAGE_VERSION=${PACKAGE_VERSION%\+*} && \
    git clone https://github.com/mesonbuild/meson ${PACKAGE_NAME} && \
    cd ${PACKAGE_NAME} && git checkout -b build ${PACKAGE_VERSION} && mkdir -p /${PACKAGE_NAME} && \
    python setup.py install \
