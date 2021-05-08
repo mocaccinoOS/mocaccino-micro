@@ -20,16 +20,17 @@ requires:
   version: ">=0"
 
 env:
-- CFLAGS="-fPIC"
-
+- CFLAGS="-I/include -I/usr/include -fPIC"
+- CPPFLAGS="-I/include -I/usr/include"
+- LDFLAGS="-L/usr/lib"
 package_dir: /libressl
 prelude:
+   #echo OPENBSD_6_9 > OPENBSD_BRANCH && \
 - |
    PACKAGE_VERSION=${PACKAGE_VERSION%\+*} && \
    git config --global advice.detachedHead false && \
    git clone https://github.com/libressl-portable/portable ${PACKAGE_NAME} && \
    cd ${PACKAGE_NAME} && git checkout -b build v${PACKAGE_VERSION} && mkdir -p /${PACKAGE_NAME} && \
-   echo libressl-v${PACKAGE_VERSION} > OPENBSD_BRANCH && \
    sed -i 's/git pull --rebase//g' update.sh && \
    ./autogen.sh && ./configure --prefix=/usr   && \
    make -j8 && \
