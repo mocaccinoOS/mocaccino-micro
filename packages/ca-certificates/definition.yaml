@@ -1,7 +1,6 @@
 name: ca-certificates
 category: utils
-version: "20191127"
-
+version: 20191127+1
 uri:
-- https://packages.debian.org/sid/ca-certificates
+  - https://packages.debian.org/sid/ca-certificates
 license: "MPL-1.1"
