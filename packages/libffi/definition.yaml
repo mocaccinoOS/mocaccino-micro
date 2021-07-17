@@ -1,11 +1,9 @@
 name: libffi
 category: libs
-version: "3.3"
-
+version: "3.4.2"
 labels:
   github.repo: "libffi"
   github.owner: "libffi"
-
 uri:
-- https://sourceware.org/libffi
+  - https://sourceware.org/libffi
 license: "MIT"
