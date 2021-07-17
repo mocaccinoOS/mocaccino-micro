@@ -1,21 +1,20 @@
 name: busybox
 category: utils
-version: "1.32.0+3"
+version: "1.33.1"
 conflicts:
-- name: coreutils
-  category: utils
-  version: ">=0"
+  - name: coreutils
+    category: utils
+    version: ">=0"
 requires:
-- name: musl
-  category: system
-  version: ">=0"
+  - name: musl
+    category: system
+    version: ">=0"
 labels:
   github.repo: "busybox"
   github.owner: "mirror"
   autobump.version_contains: '_'
   autobump.strategy: "tag"
   autobump.string_replace: '{ "_": "." }'
-
 uri:
-- https://www.busybox.net
+  - https://www.busybox.net
 license: "GPL-2"
