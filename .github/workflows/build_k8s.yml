@@ -15,6 +15,7 @@ jobs:
       MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}
       MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}
       IMAGE_REPOSITORY: quay.io/mocaccinocache/micro-amd64-cache
+      NODE_SELECTOR: "luet.io/workload: jobs"
       BACKEND: docker-sidecar
       BUCKET: mocaccino-micro
       NAMESPACE: workload-mocaccino-micro
