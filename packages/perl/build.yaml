@@ -9,7 +9,9 @@ requires:
 - name: m4
   category: development
   version: ">=0"
-
+- name: curl
+  version: ">=0"
+  category: utils
 
 env:
 - CFLAGS="-static -Os -ffunction-sections -fdata-sections -Bsymbolic-functions"
@@ -27,8 +29,8 @@ env:
 package_dir: /perl
 prelude:
 - |
-   wget https://www.cpan.org/src/5.0/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
-   wget https://github.com/arsv/perl-cross/releases/download/${PERL_CROSS}/perl-cross-${PERL_CROSS}.tar.gz && \
+   curl -L https://www.cpan.org/src/5.0/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz -o ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
+   curl -L https://github.com/arsv/perl-cross/releases/download/${PERL_CROSS}/perl-cross-${PERL_CROSS}.tar.gz -o perl-cross-${PERL_CROSS}.tar.gz && \
    tar -xvf perl-cross-${PERL_CROSS}.tar.gz && \
    tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
    cd ${PACKAGE_NAME} && cp -rfv ../perl-cross-${PERL_CROSS}/* ./ && \
