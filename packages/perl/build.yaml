@@ -9,9 +9,6 @@ requires:
 - name: m4
   category: development
   version: ">=0"
-- name: curl
-  version: ">=0"
-  category: utils
 
 env:
 - CFLAGS="-static -Os -ffunction-sections -fdata-sections -Bsymbolic-functions"
