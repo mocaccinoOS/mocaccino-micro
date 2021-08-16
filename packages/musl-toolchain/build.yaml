@@ -14,7 +14,7 @@ steps:
 - |
   PACKAGE_VERSION=${PACKAGE_VERSION%\+*} && \
   apk update && \
-  apk add git build-base make patch && \
+  apk add git build-base make patch busybox-static && \
   git clone https://github.com/richfelker/musl-cross-make && \
   cd musl-cross-make && \
   git checkout v${PACKAGE_VERSION} -b build && \
