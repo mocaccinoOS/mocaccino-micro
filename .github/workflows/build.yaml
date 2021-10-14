@@ -51,7 +51,7 @@ jobs:
     #   if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     #   run: echo ${{ secrets.QUAY_ROBOT_PASSWORD }} | docker login -u ${{ secrets.QUAY_ROBOT_USERNAME }} --password-stdin quay.io
 
-    - if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    - if: ${{ github.event_name == 'push' }}
       name: Login to GitHub Container Registry
       uses: docker/login-action@v1
       with:
