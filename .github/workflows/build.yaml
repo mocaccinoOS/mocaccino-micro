@@ -1,0 +1,157 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+
+  generate-matrix:
+    name: Generate matrix for build
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install deps
+        run: |
+          curl https://get.mocaccino.org/luet/get_luet_root.sh | sudo sh
+          sudo luet install utils/jq
+      - name: Set matrix for build
+        id: set-matrix
+        run: |
+          JSON="{\"include\":"
+          JSONline="$(luet tree pkglist --tree packages -o json | jq -rc '.packages')"
+          JSON="$JSON$JSONline"
+          JSON="$JSON}"
+          # Set output
+          echo "::set-output name=matrix::$( echo "$JSON" )"
+
+  build:
+    needs: generate-matrix
+    strategy:
+      matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
+    env:
+      # CONFIGURE: FINAL_REPO is the container image which will be used
+      # to push packages to.
+      #FINAL_REPO: quay.io/mocaccino/mocaccino-community
+      FINAL_REPO: ghcr.io/${{ github.repository }}
+      CURRENT_PACKAGE:  ${{ matrix.category }}/${{ matrix.name }}@${{ matrix.version }}
+      # Repository used to pull images from. needed if you list any repo in .luet.yaml
+      #PULL_REPOSITORY: quay.io/mocaccinocache/desktop
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Release space from worker
+      run: |
+        sudo rm -rf /usr/local/lib/android # will release about 10 GB if you don't need Android
+        sudo rm -rf /usr/share/dotnet # will release about 20GB if you don't need .NET
+    - run: |
+        git fetch --prune --unshallow
+    # CONFIGURE: we might use quay here in our example, adapt as needed
+    # - name: Login to Quay Registry
+    #   if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    #   run: echo ${{ secrets.QUAY_ROBOT_PASSWORD }} | docker login -u ${{ secrets.QUAY_ROBOT_USERNAME }} --password-stdin quay.io
+
+    - if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+      name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}      
+    - name: Install deps 🔧
+      run: |
+        curl https://get.mocaccino.org/luet/get_luet_root.sh | sudo sh
+    - name: Install Go
+      uses: actions/setup-go@v2
+      with:
+          go-version: '^1.16'
+    - if: ${{ github.event_name == 'push' }}
+      name: "Push cache"
+      run: echo "PUSH_CACHE=true" >> $GITHUB_ENV
+    - name: Build packages 🔧
+      run: |
+        export PATH=$PATH:/usr/local/go/bin
+        mkdir build || true
+        pushd ./.github
+        go build -o build
+        popd
+        sudo -E ./.github/build
+        ls -liah $PWD/build
+        sudo chmod -R 777 $PWD/build
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.category }}-${{ matrix.name }}-${{ matrix.version }}.zip
+        path: |
+          build/
+
+  create-repo:
+    needs: build
+    env:
+      FINAL_REPO: ghcr.io/${{ github.repository }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: |
+        git fetch --prune --unshallow
+    # - name: Login to Quay Registry
+    #   if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    #   run: echo ${{ secrets.QUAY_ROBOT_PASSWORD }} | docker login -u ${{ secrets.QUAY_ROBOT_USERNAME }} --password-stdin quay.io
+    - if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+      name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}    
+    - name: Install deps 🔧
+      run: |
+        curl https://get.mocaccino.org/luet/get_luet_root.sh | sudo sh
+    - name: Install Go
+      uses: actions/setup-go@v2
+      with:
+          go-version: '^1.16'
+
+    - name: Download all workflow run artifacts
+      uses: actions/download-artifact@v2
+    - name: Merge artifacts 🔧
+      run: |
+        mkdir build || true
+        for i in $(ls | grep zip); do
+          cp -rfv $i/* build
+        done
+        ls -liah
+        ls -liah build
+    - name: Fetch metadata of packages 🔧
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+      run: |
+        ls -liah
+        export PATH=$PATH:/usr/local/go/bin
+
+        pushd ./.github
+        go build -o build
+        popd
+        sudo -E ./.github/build
+        ls -liah $PWD/build
+        sudo chmod -R 777 $PWD/build
+
+    - name: Create repo 🔧
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+      run: |
+          FINAL_REPO=$(echo "$FINAL_REPO" | tr '[:upper:]' '[:lower:]')
+          sudo -E luet create-repo \
+          --push-images \
+          --type docker \
+          --output $FINAL_REPO \
+          --name "example-repository" \
+          --packages ${PWD}/build \
+          --tree ${PWD}/packages
+
+    # - name: Deploy GH Pages 🚀
+    #   if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    #   uses: JamesIves/github-pages-deploy-action@3.6.2
+    #   with:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #     BRANCH: gh-pages # The branch the action should deploy to.
+    #     FOLDER: build # The folder the action should deploy.
+    #     CLEAN: true # Automatically remove deleted files from the deploy branch
+    #     SINGLE_COMMIT: true
