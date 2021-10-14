@@ -33,7 +33,7 @@ jobs:
       # CONFIGURE: FINAL_REPO is the container image which will be used
       # to push packages to.
       #FINAL_REPO: quay.io/mocaccino/mocaccino-community
-      FINAL_REPO: ghcr.io/${{ github.repository }}
+      FINAL_REPO: quay.io/mocaccino/micro
       CURRENT_PACKAGE:  ${{ matrix.category }}/${{ matrix.name }}@${{ matrix.version }}
       # Repository used to pull images from. needed if you list any repo in .luet.yaml
       #PULL_REPOSITORY: quay.io/mocaccinocache/desktop
@@ -49,7 +49,7 @@ jobs:
     # CONFIGURE: we might use quay here in our example, adapt as needed
     - name: Login to Quay Registry
       if: ${{ github.event_name == 'push' }}
-      run: echo ${{ secrets.QUAY_PASSWORD }} | docker login -u ${{ secrets.QUAY_USERNAME }} --password-stdin quay.io
+      run: echo ${{ secrets.QUAY_ROBOT_PASSWORD }} | docker login -u ${{ secrets.QUAY_ROBOT_USERNAME }} --password-stdin quay.io
    
     - name: Install deps 🔧
       run: |
@@ -88,7 +88,7 @@ jobs:
         git fetch --prune --unshallow
     - name: Login to Quay Registry
       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-      run: echo ${{ secrets.QUAY_PASSWORD }} | docker login -u ${{ secrets.QUAY_USERNAME }} --password-stdin quay.io
+      run: echo ${{ secrets.QUAY_ROBOT_PASSWORD }} | docker login -u ${{ secrets.QUAY_ROBOT_USERNAME }} --password-stdin quay.io
   
     - name: Install deps 🔧
       run: |
