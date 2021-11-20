@@ -20,7 +20,7 @@ env:
 package_dir: /pcre2
 prelude:
 - |
-   wget https://iweb.dl.sourceforge.net/project/pcre/${PACKAGE_NAME}/${PACKAGE_VERSION}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && \
+   curl -L -O  https://iweb.dl.sourceforge.net/project/pcre/${PACKAGE_NAME}/${PACKAGE_VERSION}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && \
    tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
    cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && ./configure --prefix=/usr --enable-unicode         --build=$MUSL_TARGET --host=$MUSL_TARGET           \
             --enable-jit                        \

@@ -11,7 +11,7 @@ requires:
 package_dir: /pkg-config
 prelude:
 - |
-   wget https://pkg-config.freedesktop.org/releases/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz  && \
+   curl -L -O  https://pkg-config.freedesktop.org/releases/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz  && \
    tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
    cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && ./configure --with-internal-glib --prefix=/usr && make DESTDIR=/${PACKAGE_NAME}
 

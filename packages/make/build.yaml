@@ -6,7 +6,7 @@ requires:
 package_dir: /make
 prelude:
 - |
-   wget http://ftp.gnu.org/gnu/make/make-${PACKAGE_VERSION}.tar.gz && \
+   curl -L -O  http://ftp.gnu.org/gnu/make/make-${PACKAGE_VERSION}.tar.gz && \
    tar -xvf make-${PACKAGE_VERSION}.tar.gz && mv make-${PACKAGE_VERSION} make && \
    cd make && mkdir -p /make && ./configure --prefix=/usr && make DESTDIR=/make
 

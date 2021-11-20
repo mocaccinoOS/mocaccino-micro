@@ -25,7 +25,7 @@ package_dir: /python
 
 steps:
 - | 
-   wget https://www.python.org/ftp/${PACKAGE_NAME}/${PACKAGE_VERSION}/Python-${PACKAGE_VERSION}.tar.xz && \
+   curl -L -O  https://www.python.org/ftp/${PACKAGE_NAME}/${PACKAGE_VERSION}/Python-${PACKAGE_VERSION}.tar.xz && \
    tar -xJf Python-${PACKAGE_VERSION}.tar.xz && mv Python-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
    cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && \
    ac_cv_enable_implicit_function_declaration_error=no ./configure --prefix=/usr --enable-optimizations --with-zlib-dir=/lib && make -j8 && \

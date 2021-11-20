@@ -23,7 +23,7 @@ package_dir: /git
 prelude:
 - |
    PACKAGE_VERSION=${PACKAGE_VERSION%\+*} && \
-   wget https://mirrors.edge.kernel.org/pub/software/scm/${PACKAGE_NAME}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && \
+   curl -L -O  https://mirrors.edge.kernel.org/pub/software/scm/${PACKAGE_NAME}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && \
    tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
    cp -rfv config.mak ${PACKAGE_NAME}/ && \
    cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && ./configure --prefix=/usr --with-curl  && make NO_GETTEXT=1 NO_TCLTK=1 DESTDIR=/${PACKAGE_NAME}

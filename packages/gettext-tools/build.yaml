@@ -16,7 +16,7 @@ env:
 package_dir: /gettext-tools
 prelude:
 - |
-   wget http://ftp.gnu.org/gnu/${PACKAGE_NAME}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
+   curl -L -O  http://ftp.gnu.org/gnu/${PACKAGE_NAME}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
    tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
    rm -rf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
    cd ${PACKAGE_NAME}/libtextstyle && ./configure --prefix=/usr && \
@@ -31,7 +31,7 @@ prelude:
    --with-included-libxml --with-included-libunistring --disable-openmp  --without-included-gettext  \
    --disable-curses --without-examples --enable-shared && \
    make DESTDIR=/gettext-tools
-# wget http://ftp.gnu.org/gnu/${PACKAGE_NAME}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
+# curl -L -O  http://ftp.gnu.org/gnu/${PACKAGE_NAME}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
 #   tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
 
 steps:

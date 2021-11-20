@@ -27,7 +27,7 @@ package_dir: /ruby
 steps:
 - |
   PACKAGE_VERSION=${PACKAGE_VERSION%\+*} && \
-  wget https://cache.ruby-lang.org/pub/{{ .Values.name }}/2.7/{{ .Values.name }}-${PACKAGE_VERSION}.tar.gz && \
+  curl -L -O  https://cache.ruby-lang.org/pub/{{ .Values.name }}/2.7/{{ .Values.name }}-${PACKAGE_VERSION}.tar.gz && \
   tar -xvf {{ .Values.name }}-${PACKAGE_VERSION}.tar.gz && mv {{ .Values.name }}-${PACKAGE_VERSION} {{ .Values.name }} && \
   cd {{ .Values.name }} && mkdir -p /{{ .Values.name }} && \
   ./configure --prefix=/usr && make -j8 && \

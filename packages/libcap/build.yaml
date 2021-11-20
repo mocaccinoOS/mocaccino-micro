@@ -15,7 +15,7 @@ requires:
 package_dir: /libcap
 prelude:
 - |
-  wget https://kernel.org/pub/linux/libs/security/linux-privs/${PACKAGE_NAME}/libcap-${PACKAGE_VERSION}.tar.xz && \ 
+  curl -L -O  https://kernel.org/pub/linux/libs/security/linux-privs/${PACKAGE_NAME}/libcap-${PACKAGE_VERSION}.tar.xz && \ 
    tar -xvf libcap-${PACKAGE_VERSION}.tar.xz && mv libcap-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
    cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && make lib=lib prefix=/usr
 

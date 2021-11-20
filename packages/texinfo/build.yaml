@@ -13,7 +13,7 @@ requires:
 package_dir: /texinfo
 prelude:
 - |
-   wget http://ftp.gnu.org/gnu/${PACKAGE_NAME}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && \
+   curl -L -O  http://ftp.gnu.org/gnu/${PACKAGE_NAME}/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && \
    tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.gz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
    cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && ./configure PERL=/usr/bin/perl --prefix=/usr && make
 

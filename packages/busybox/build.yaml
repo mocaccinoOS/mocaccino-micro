@@ -13,7 +13,7 @@ package_dir: /busybox
 prelude:
 - |
    PACKAGE_VERSION=${PACKAGE_VERSION%\+*} && \
-   wget https://busybox.net/downloads/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.bz2 && \
+   curl -L -O  https://busybox.net/downloads/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.bz2 && \
    tar -xvjf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.bz2 && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
    cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && make defconfig && make CONFIG_PREFIX=/${PACKAGE_NAME}
 

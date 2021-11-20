@@ -10,7 +10,7 @@ requires:
 package_dir: /m4
 prelude:
 - |
-   wget  http://ftp.gnu.org/gnu/m4/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
+   curl -L -O   http://ftp.gnu.org/gnu/m4/${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && \
    tar -xvf ${PACKAGE_NAME}-${PACKAGE_VERSION}.tar.xz && mv ${PACKAGE_NAME}-${PACKAGE_VERSION} ${PACKAGE_NAME} && \
    cd ${PACKAGE_NAME} && mkdir -p /${PACKAGE_NAME} && ./configure --prefix=/usr && make DESTDIR=/${PACKAGE_NAME}
 

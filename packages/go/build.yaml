@@ -17,11 +17,11 @@ env:
 package_dir: /go
 prelude:
 - |
-   wget https://dl.google.com/go/go1.4-bootstrap-20171003.tar.gz -O go1.4-bootstrap-20171003.tar.gz && \
+   curl -L  https://dl.google.com/go/go1.4-bootstrap-20171003.tar.gz -o go1.4-bootstrap-20171003.tar.gz && \
    mkdir -p $HOME/go && mkdir -p /go/usr/lib && mkdir -p /go/usr/bin && \
    tar -xvf go1.4-bootstrap-20171003.tar.gz -C $HOME/ && mv $HOME/go $HOME/go1.4 && \
    cd $HOME/go1.4/src && bash make.bash && cd ../../../ && mkdir -p /goreal  && \
-   wget https://dl.google.com/${PACKAGE_NAME}/${PACKAGE_NAME}${PACKAGE_VERSION}.src.tar.gz -O ${PACKAGE_NAME}${PACKAGE_VERSION}.src.tar.gz && \
+   curl -L  https://dl.google.com/${PACKAGE_NAME}/${PACKAGE_NAME}${PACKAGE_VERSION}.src.tar.gz -o ${PACKAGE_NAME}${PACKAGE_VERSION}.src.tar.gz && \
    tar -xvf ${PACKAGE_NAME}${PACKAGE_VERSION}.src.tar.gz -C /goreal
 
 steps:
