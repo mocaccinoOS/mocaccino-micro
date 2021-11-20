@@ -16,7 +16,8 @@ steps:
   PACKAGE_VERSION=${PACKAGE_VERSION%\+*} && \
   apk update && \
   apk add git build-base make patch busybox-static curl && \
-  curl -L https://github.com/moparisthebest/static-curl/releases/download/v7.80.0/curl-amd64 -o /usr/bin/curl && chmod +x /usr/bin/curl && \
+  curl -L https://github.com/moparisthebest/static-curl/releases/download/v7.80.0/curl-amd64 -o /usr/bin/curl-static && chmod +x /usr/bin/curl-static && \
+  mv /usr/bin/curl-static /usr/bin/curl && \
   git clone https://github.com/richfelker/musl-cross-make && \
   cd musl-cross-make && \
   git checkout v${PACKAGE_VERSION} -b build && \
