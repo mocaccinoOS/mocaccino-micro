@@ -1,4 +1,4 @@
-FROM quay.io/luet/base:master
+FROM quay.io/luet/base:latest
 ADD conf/luet.yaml.docker /etc/luet/luet.yaml
 ADD conf/repos.conf.d/ /etc/luet/repos.conf.d
 
