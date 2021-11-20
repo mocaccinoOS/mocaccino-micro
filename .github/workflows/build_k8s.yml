@@ -37,9 +37,6 @@ jobs:
         sudo rm -rf /usr/share/dotnet # will release about 20GB if you don't need .NET
     - run: |
         git fetch --prune --unshallow
-    - name: Login to Quay Registry
-      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-      run: echo ${{ secrets.QUAY_ROBOT_PASSWORD }} | docker login -u ${{ secrets.QUAY_ROBOT_USERNAME }} --password-stdin quay.io   
     - name: Build 🔧
       uses: mudler/luet-github-action@master
       if: ${{ github.event_name == 'push' && github.ref != 'refs/heads/master' }}
@@ -61,6 +58,9 @@ jobs:
         onlyMissing: true
         values: arches/amd64/values.yaml
         pushCache: true
+        DOCKER_USERNAME: ${{ secrets.QUAY_ROBOT_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.QUAY_ROBOT_PASSWORD }}
+        DOCKER_ENDPOINT: quay.io
         CURRENT_PACKAGE:  ${{ matrix.category }}/${{ matrix.name }}@${{ matrix.version }}
         # Repository used to pull images from. needed if you list any repo in .luet.yaml
       #PULL_REPOSITORY: quay.io/mocaccinocache/desktop
@@ -108,6 +108,9 @@ jobs:
         # tree: packages
         createRepo: true
         pushCache: true
+        DOCKER_USERNAME: ${{ secrets.QUAY_ROBOT_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.QUAY_ROBOT_PASSWORD }}
+        DOCKER_ENDPOINT: quay.io
         FINAL_REPO: quay.io/mocaccino/micro
         REPOSITORY_TYPE: docker
     - name: Push to stable repository 🚀
