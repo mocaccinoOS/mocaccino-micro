@@ -1,4 +1,4 @@
-# [![Docker Repository on Quay](https://quay.io/repository/mocaccino/micro/status "Docker Repository on Quay")](https://quay.io/repository/mocaccino/micro) [![Packages](https://packages.mocaccino.org/badge/mocaccino-micro "List of packages")](https://packages.mocaccino.org/mocaccino-micro) Mocaccino-micro
+# [![Docker Repository on Quay](https://quay.io/repository/mocaccino/micro/status "Docker Repository on Quay")](https://quay.io/repository/mocaccino/micro) [![Packages](https://labs.mocaccino.org/badge/mocaccino-micro.svg "List of packages")](https://labs.mocaccino.org/mocaccino-micro) Mocaccino-micro
 
 ## Architecture
 
