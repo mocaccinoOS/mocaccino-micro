@@ -90,7 +90,7 @@ jobs:
         ls -liah build
     - name: Download meta
       uses: mudler/luet-github-action@master
-      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && !startsWith(github.ref, 'refs/tags/') }}
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
       with:
         # tree: packages
         downloadMeta: true
@@ -99,7 +99,7 @@ jobs:
         REPOSITORY_TYPE: docker
     - name: Create repo 🔧
       uses: mudler/luet-github-action@master
-      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && !startsWith(github.ref, 'refs/tags/') }}
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
       with:
         # tree: packages
         createRepo: true
@@ -109,21 +109,3 @@ jobs:
         DOCKER_ENDPOINT: quay.io
         FINAL_REPO: quay.io/mocaccino/micro
         REPOSITORY_TYPE: docker
-    - name: Login to Quay Registry
-      if: startsWith(github.ref, 'refs/tags/')
-      run: echo ${{ secrets.QUAY_ROBOT_PASSWORD }} | docker login -u ${{ secrets.QUAY_ROBOT_USERNAME }} --password-stdin quay.io 
-
-    - name: Push to stable repository 🚀
-      if: startsWith(github.ref, 'refs/tags/') 
-      run: |
-        curl https://get.mocaccino.org/luet/get_luet_root.sh | sudo sh
-        sudo luet install -y repository/mocaccino-extra-stable
-        sudo luet install -y container/skopeo
-        src="quay.io/mocaccino/micro"
-        dst="quay.io/mocaccino/micro-stable"
-        skopeo login quay.io
-        tags=$(skopeo list-tags docker://$src | jq '.Tags')
-        for i in $(echo "$tags" | jq -rc '.[]'); do
-          echo "Copy docker://$src:$i docker://$dst:$i"
-          skopeo copy docker://$src:$i docker://$dst:$i
-        done
