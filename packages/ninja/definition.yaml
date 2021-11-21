@@ -1,6 +1,6 @@
 name: ninja
 category: development
-version: 1.10.2+1
+version: 1.10.2+2
 labels:
   github.repo: "ninja"
   github.owner: "ninja-build"
