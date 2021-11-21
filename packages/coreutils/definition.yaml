@@ -1,14 +1,13 @@
 name: coreutils
 category: utils
-version: "8.32"
+version: "9.0"
 requires:
-- name: musl
-  category: system
-  version: ">=0"
+  - name: musl
+    category: system
+    version: ">=0"
 labels:
   github.repo: "coreutils"
   github.owner: "coreutils"
-
 uri:
-- https://www.gnu.org/software/coreutils
+  - https://www.gnu.org/software/coreutils
 license: "GPL-3"
