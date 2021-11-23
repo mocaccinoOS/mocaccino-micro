@@ -40,7 +40,7 @@ jobs:
         git fetch --prune --unshallow
     - name: Build 🔧
       uses: mudler/luet-github-action@master
-      if: ${{ github.event_name == 'push' && github.ref != 'refs/heads/master' }}
+      if: ${{ github.event_name != 'push' }}
       with:
         # tree: packages
         build: true
