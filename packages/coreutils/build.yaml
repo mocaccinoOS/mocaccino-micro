@@ -6,7 +6,9 @@ requires:
 - name: make
   category: development
   version: ">=0"
-
+- name: perl
+  category: lang
+  version: ">=0"
 env:
 - FORCE_UNSAFE_CONFIGURE=1
 
