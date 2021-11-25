@@ -27,5 +27,5 @@ prelude:
 steps:
 - |
    cd /goreal/go && \
-   mkdir -p /${PACKAGE_NAME} && cd src && ls -liah && GOROOT_FINAL=/usr/lib/go bash all.bash && \
+   mkdir -p /${PACKAGE_NAME} && cd src && ls -liah && GOROOT_FINAL=/usr/lib/go bash make.bash && \
    mv /goreal/go /go/usr/lib/go && cd /go/usr/bin/ && ln -s ../lib/go/bin/go go
