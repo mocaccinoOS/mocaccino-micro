@@ -1,6 +1,6 @@
 name: busybox
 category: utils
-version: "1.33.1"
+version: "1.34.1"
 conflicts:
   - name: coreutils
     category: utils
