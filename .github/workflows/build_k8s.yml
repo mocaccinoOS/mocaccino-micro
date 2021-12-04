@@ -25,6 +25,63 @@ jobs:
           JSON="$JSON}"
           # Set output
           echo "::set-output name=matrix::$( echo "$JSON" )"
+  build-arm:
+    needs: generate-matrix
+    strategy:
+      matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Release space from worker
+      run: |
+        sudo rm -rf /usr/local/lib/android # will release about 10 GB if you don't need Android
+        sudo rm -rf /usr/share/dotnet # will release about 20GB if you don't need .NET
+    - run: |
+        git fetch --prune --unshallow
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@master
+      with:
+        platforms: all
+
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@master
+    - name: Build 🔧
+      uses: mudler/luet-github-action@master
+      if: ${{ github.event_name != 'push' }}
+      with:
+        # tree: packages
+        build: true
+        onlyMissing: true
+        FINAL_REPO: quay.io/mocaccino/micro-arm
+        values: arches/arm/values.yaml
+        platform: "linux/arm/v7"
+        pushCache: false
+        buildx: true
+        CURRENT_PACKAGE:  ${{ matrix.category }}/${{ matrix.name }}@${{ matrix.version }}
+    - name: Build 🔧
+      uses: mudler/luet-github-action@master
+      if: ${{ github.event_name == 'push' }}
+      with:
+        # tree: packages
+        build: true
+        FINAL_REPO: quay.io/mocaccino/micro-arm
+        onlyMissing: true
+        platform: "linux/arm/v7"
+        buildx: true
+        values: arches/arm/values.yaml
+        pushCache: true
+        DOCKER_USERNAME: ${{ secrets.QUAY_ROBOT_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.QUAY_ROBOT_PASSWORD }}
+        DOCKER_ENDPOINT: quay.io
+        CURRENT_PACKAGE:  ${{ matrix.category }}/${{ matrix.name }}@${{ matrix.version }}
+        # Repository used to pull images from. needed if you list any repo in .luet.yaml
+      #PULL_REPOSITORY: quay.io/mocaccinocache/desktop
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.category }}-${{ matrix.name }}-${{ matrix.version }}.zip
+        path: |
+          build/
   build:
     needs: generate-matrix
     strategy:

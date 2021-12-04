@@ -105,10 +105,6 @@ jobs:
         make rebuild
         ls -liah $PWD/build
 
-    - name: Update repository 🚀
-      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      run: |
-        mc cp --recursive $PWD/build/ minio/mocaccino-micro
 
   create-repo:
     runs-on: ubuntu-latest
