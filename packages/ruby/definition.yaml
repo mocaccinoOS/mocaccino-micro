@@ -1,6 +1,6 @@
 name: ruby
 category: lang
-version: 2.7.2+3
+version: 2.7.2+4
 labels:
   github.repo: "ruby"
   github.owner: "ruby"
