@@ -1,3 +1,4 @@
 general:
   debug: false
+  quiet: true
 
