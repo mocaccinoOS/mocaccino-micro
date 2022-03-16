@@ -1,11 +1,9 @@
 name: autoconf
 category: utils
-version: "2.69"
-
+version: 2.69+1
 labels:
   github.repo: "autoconf"
   github.owner: "autotools-mirror"
-
 uri:
-- https://www.gnu.org/software/autoconf/autoconf.html
+  - https://www.gnu.org/software/autoconf/autoconf.html
 license: "GPL-3"
