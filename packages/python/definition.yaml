@@ -1,6 +1,6 @@
 name: python
 category: lang
-version: 3.9.5+2
+version: 3.9.5+3
 labels:
   github.repo: "cpython"
   github.owner: "python"
