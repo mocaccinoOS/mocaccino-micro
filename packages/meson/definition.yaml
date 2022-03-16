@@ -1,6 +1,6 @@
 name: meson
 category: development
-version: 0.54.2+3
+version: 0.54.2+4
 labels:
   github.repo: "ninja"
   github.owner: "mesonbuild"
