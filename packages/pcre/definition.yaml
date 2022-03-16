@@ -1,7 +1,6 @@
 name: pcre2
 category: libs
-version: "10.35"
-
+version: 10.35+1
 uri:
-- https://www.pcre.org
+  - https://www.pcre.org
 license: "BSD"
