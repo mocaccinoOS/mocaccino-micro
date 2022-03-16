@@ -1,6 +1,6 @@
 name: busybox-init
 category: utils
-version: 1.35.0+1
+version: 1.35.0+2
 labels:
   github.repo: "busybox"
   github.owner: "mirror"

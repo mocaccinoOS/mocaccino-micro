@@ -1,11 +1,9 @@
 name: perl
 category: lang
-version: "5.31.10"
-
+version: "5.35.9"
 labels:
   github.repo: "perl5"
   github.owner: "Perl"
-
 uri:
-- https://www.perl.org
+  - https://www.perl.org
 license: "GPL-1+ Artistic"

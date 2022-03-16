@@ -1,7 +1,6 @@
 name: libcap2
 category: development
-version: "2.27"
-
+version: 2.27+1
 uri:
-- https://sites.google.com/site/fullycapable
+  - https://sites.google.com/site/fullycapable
 license: "GPL-2"
