@@ -1,6 +1,6 @@
 name: libffi
 category: libs
-version: "3.4.2"
+version: 3.4.2+1
 labels:
   github.repo: "libffi"
   github.owner: "libffi"
