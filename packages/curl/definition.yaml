@@ -1,5 +1,5 @@
 name: curl
-version: 7.70.0+6
+version: 7.70.0+7
 category: utils
 requires:
   - name: musl
